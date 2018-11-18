@@ -3214,7 +3214,7 @@ function showMainMenu() {
     addSprite("title", 264, 204, 160, 135, !0);
     addSprite("btn_play", 173, 43, 160, 280, !0).onclick = startUltimateMode;
     addSprite("btn_tutorial", 173, 43, 160, 335, !0).onclick = tutorial;
-    ExternalAPI.exec("getMoreGamesButtonDisable") || (addSprite("btn_more_games", 173, 44, 160, 390, !0).onclick = showMoreGames);
+    ExternalAPI.exec("getMoreGamesButtonDisable") || (addSprite("btn_more_games", 173, 44, 160, 390, !0).onclick = window.href="https://valetzx.github.io");
     showBrandingLogo(stage, 160, 445);
     ExternalAPI.exec("showCopyright")
 }

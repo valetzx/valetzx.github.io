@@ -64,7 +64,95 @@
                             }
                         }
                     </style>
-                    <h2 class="content-title">PIGPIGEON</h2>
+<canvas width="2254" height="2096" style="width: 1127px; height: 1048px; touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas>
+                   <script>
+        window.onload = () => {
+
+            let isShow = false;
+            const menuM = document.getElementById('menu-m');
+            const menuBg = document.getElementById('menu-bg');
+            const menu = document.getElementById('menu');
+            menuM.addEventListener( 'click', (event) => {
+                onClickMenu();
+            });
+            menuBg.addEventListener( 'click', (event) => {
+                onClickMenu();
+            });
+
+            function onClickMenu() {
+                isShow = !isShow;
+                if (isShow) {
+                    menuBg.style.display = 'block';
+                    menu.className = 'show';
+                } else {
+                    menuBg.style.display = 'none';
+                    menu.className = '';
+                }
+            }
+
+
+            const sw = 170;
+            const sh = 50;
+            const iframe = document.getElementById('iframe');
+            const canvas = document.getElementById('header');
+            const ctx = canvas.getContext("2d");
+            canvas.width = sw * 2;
+            canvas.height = sh * 2;
+            canvas.style.width = sw + 'px'
+            canvas.style.height = sh + 'px'
+            ctx.scale(2, 2);
+
+            const leon = new LeonSans({
+                text: 'Leon Sans',
+                color: ['#ffffff'],
+                size: 26,
+                weight: 300
+            });
+            leon.on('update', (model) => {  
+                ctx.clearRect(0, 0, sw, sh);
+                leon.position(20, 20);
+                leon.draw(ctx);
+            });
+
+            const list = document.getElementById('list');
+            const arr = list.getElementsByClassName('item');
+            const total = arr.length;
+            const links = {};
+            let cur = null;
+            let i;
+            for (i = 0; i < total; i++) {
+                const vv = arr[i].href.split('/');
+                const name = vv[vv.length - 1].split('.')[0];
+                links[name] = arr[i];
+
+                arr[i].addEventListener( 'click', (event) => {
+                    const vv = event.target.href.split('/');
+                    const name = vv[vv.length - 1].split('.')[0];
+                    checkMenu(name);
+                });
+            }
+
+            if (window.location.hash !== '') {
+                const name = window.location.hash.substring(1);
+                const url = name + '.html';
+                iframe.src = url;
+                checkMenu(name);
+            } else {
+                const name = 'all';
+                iframe.src = name + '.html';
+                checkMenu(name);
+            }
+            
+            function checkMenu(name) {
+                if (cur) links[cur].classList.remove('selected');
+                cur = name;
+                links[cur].classList.add('selected');
+                window.location.hash = name;
+                iframe.focus();
+            };
+        };
+    </script>
+		    <h2 class="content-title">PIGPIGEON</h2>
                     <h3 class="content-subtitle" original-content="Hope is a good thing">&nbsp;</h3>
 
 

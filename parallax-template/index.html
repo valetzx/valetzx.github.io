@@ -32,17 +32,6 @@
 
 <script>
   
-let i, total = leon.drawing.length;
-for (i = 0; i < total; i++) {
-    TweenMax.fromTo(leon.drawing[i], 1.6, {
-        value: 0
-    }, {
-        delay: i * 0.05,
-        value: 1,
-        ease: Power4.easeOut
-    });
-}
-  
 let leon, canvas, ctx;
 
 const sw = 800;

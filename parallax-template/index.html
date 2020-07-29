@@ -60,9 +60,10 @@ function init() {
     canvas.style.height = sh + 'px';
     ctx.scale(pixelRatio, pixelRatio);
 
-    leon = colorful({
+    leon = new LeonSans({
         text: 'The quick brown\nfox jumps over\nthe lazy dog',
         color: ['#000000'],
+      colorful:['#c5d73f', '#9d529c', '#49a9db', '#fec330', '#5eb96e', '#fc5356', '#f38f31']],
         size: 80,
         weight: 200
     });

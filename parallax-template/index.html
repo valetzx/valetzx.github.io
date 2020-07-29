@@ -27,6 +27,123 @@
     <div class="section no-pad-bot">
       <div class="container">
         <----------一个字体例子----------->
+          <body>
+    <script src="../dist/leon.js"></script>
+    <script src="js/util.js"></script>
+    <script>
+        const speed = 10;
+        const fps = 1000 / 30;
+        const PI2 = 2 * Math.PI;
+        let cValue = 0, mode;
+        let leon, controll, time;
+
+        function init() {
+            generateCanvas();
+            
+            controll = {
+                size: 200,
+                pathGap: 0,
+                patternWidth: 2,
+                visual: {},
+                drawing: () => {
+                    let i, total = leon.drawing.length;
+                    for (i = 0; i < total; i++) {
+                        TweenMax.killTweensOf(leon.drawing[i]);
+                        TweenMax.fromTo(leon.drawing[i], 2, {
+                            value: 0
+                        }, {
+                            delay: i * 0.1,
+                            value: 1,
+                            ease: Power4.easeOut
+                        });
+                    }
+                }
+            };
+
+            leon = new LeonSans({
+                text: 'abcdefg',
+                size: getSize(200),
+                weight: 500,
+                pathGap: -1,
+                isPath: true
+            });
+
+            const gui = new dat.GUI();
+            gui.add(leon, 'text');
+            gui.add(leon, 'size', 10, 1000);
+            const weightControll = gui.add(controll, 'patternWidth', 1, 100);
+            gui.add(controll, 'drawing');
+            const visControll = gui.add(controll, 'pathGap', [ '-1', '0'] );
+
+            visControll.onChange((value) => {
+                mode = value;
+                if (mode == '-1') {
+                    weightControll.setValue(40);
+                    leon.pathGap = -1;
+                    leon.tracking = 1;
+                } else if (mode == '0') {
+                    weightControll.setValue(40);
+                    leon.pathGap = 0;
+                    leon.tracking = 1;
+                }
+            });
+            visControll.setValue('-1');
+
+            requestAnimationFrame(animate);
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, sw, sh);
+            ctx.lineWidth = 0.2;
+            const w = controll.patternWidth * leon.scale;
+            const total = leon.data.length;
+            let i, p, pos, no = 0; 
+            let d, j, j_total;
+
+            for (i = 0; i < total; i++) {
+                d = leon.data[i].paths;
+                j_total = Math.round(d.length * leon.drawing[i].value);
+                for (j = 0; j < j_total; j++) {
+                    pos = d[j];
+                    ctx.fillStyle = randomColor(no);
+                    ctx.strokeStyle = randomColor(no);
+                    ctx.beginPath();
+                    ctx.arc(pos.x, pos.y, w, 0, PI2);
+                    ctx.stroke();
+                    no += 1;
+                }
+            }
+
+            cValue -= speed;
+        }
+
+        function randomColor(no) {
+            return "hsl(" + (no + cValue) + ',' + '70%,' + '50%)';
+        }
+
+        function animate(t) {
+            requestAnimationFrame(animate);
+
+            const x = (sw - leon.rect.w) / 2;
+            const y = (sh - leon.rect.h) / 2;
+            leon.position(x + moveX, y + moveY);
+
+            if (t) {
+                if (!time) time = t;
+                if (t - time > fps) {
+                    time = t;
+                    update();
+                }
+            }
+        }
+
+        window.onload = () => {
+            init();
+        };
+    </script>
+
+
+<canvas width="2254" height="2096" style="width: 1127px; height: 1048px; touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas><div class="dg ac"><div class="dg main a" style="width: 245px;"><div style="width: 6px; margin-left: -3px; height: 140px; cursor: ew-resize; position: absolute;"></div><ul style="height: auto;"><li class="cr string"><div><span class="property-name">text</span><div class="c"><input type="text"></div></div></li><li class="cr number has-slider"><div><span class="property-name">size</span><div class="c"><div><input type="text"></div><div class="slider"><div class="slider-fg" style="width: 16.2623%;"></div></div></div></div></li><li class="cr number has-slider"><div><span class="property-name">patternWidth</span><div class="c"><div><input type="text"></div><div class="slider"><div class="slider-fg" style="width: 39.3939%;"></div></div></div></div></li><li class="cr function"><div><span class="property-name">drawing</span><div class="c"><div class="button"></div></div></div></li><li class="cr number"><div><span class="property-name">pathGap</span><div class="c"><select><option value="0">0</option><option value="-1">-1</option></select></div></div></li></ul><div class="close-button close-bottom" style="width: 245px;">Close Controls</div></div></div></body>
 <canvas id="myCanvas" width="200" height="100" style="border:0px solid #d3d3d3;">
 您的浏览器不支持 HTML5 canvas 标签。</canvas>
 

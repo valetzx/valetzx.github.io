@@ -37,9 +37,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          tag_name: v${{steps.version.outputs.value}}
-          release_name: v${{steps.version.outputs.value}}
-          body: ${{steps.description.outputs.content}}
+          tag_name: Auto Release at $(date +'%Y-%m-%d %H:%M:%S')
+          release_name: Auto Release at $(date +'%Y-%m-%d %H:%M:%S')
+          body: ${{steps.tag_version.outputs.changelog}}
           draft: false
           prerelease: false
 

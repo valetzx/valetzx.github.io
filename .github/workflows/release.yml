@@ -37,8 +37,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          tag_name: ${{date +'%Y-%m-%d %H:%M:%S'}}
-          release_name: ${{date +'%Y-%m-%d %H:%M:%S'}}
+          tag_name: ${{date.'%Y-%m-%d %H:%M:%S'}}
+          release_name: ${{date.'%Y-%m-%d %H:%M:%S'}}
           body: ${{steps.tag_version.outputs.changelog}}
           draft: false
           prerelease: false

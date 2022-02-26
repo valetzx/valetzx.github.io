@@ -1,0 +1,57 @@
+name: release
+on: 
+  release:
+    types: [published]
+  push:
+    branches: 
+      - master
+  schedule:
+    - cron: '0 17 * * *'
+  watch:
+    types: [started]
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install
+        run: |
+         yarn
+         yarn add semantic-release
+         yarn add @semantic-release/changelog @semantic-release/git -D
+
+      - name: Read version
+        id: version
+        uses: ashley-taylor/read-json-property-action@v1.0
+        with:
+          path: ./package.json
+          property: version
+          
+      - name: Create timestamp
+        id: create_timestamp
+        run: echo "::set-output name=timestamp::$(date '+%Y%m%d%H%M%s')"
+        shell: bash
+
+      - name: GitHub Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: Auto-${{ steps.create_timestamp.outputs.timestamp }}
+          release_name: Release-${{ steps.create_timestamp.outputs.timestamp }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+          draft: false
+          prerelease: false
+
+      - name: Ref dns
+        run: |
+          curl https://purge.jsdelivr.net/npm/iemotion-pic@latest/dist/name.json

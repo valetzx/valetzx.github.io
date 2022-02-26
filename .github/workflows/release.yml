@@ -37,9 +37,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          tag_name: ${{steps.tag_version.outputs.changelog}}
-          release_name: ${{steps.tag_version.outputs.changelog}}
-          body: ${{steps.tag_version.outputs.changelog}}
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
           draft: false
           prerelease: false
 

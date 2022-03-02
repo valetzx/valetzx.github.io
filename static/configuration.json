@@ -1,0 +1,15 @@
+{
+    "githubUsername": "valetzx",
+    "blogTitle": "Welcom!",
+    "blogDescribe": "欢迎来到猪猪的个人博客。",
+    "htmlTitle": "猪猪的博客",
+    "fontColor": "#ffffff",
+    "useBackgroundImage": false,
+    "backgroundColorLeft": "#2690F9",
+    "backgroundColorRight": "#FC2D2D",
+    "audioUrl": "https://allonedrive.vercel.app/pig/musiclist/Stoney%20-%20Best%20Laid%20Plans.mp3",
+    "mini": false,
+    "webSites":[
+        {"name":"Blog" , "url":"https://pighog.vercel.app/"}
+    ]
+}

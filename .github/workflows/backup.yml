@@ -60,5 +60,5 @@ jobs:
          git config --global user.email "550029691@qq.com"
          git config --global user.name "valetzx"
          git add .
-         git commit -am "new rclone config"
-         git push
+         git commit -am "GitHub Actions Auto Rclone at $(date +'%Y-%m-%d %H:%M:%S')"
+         git push --force

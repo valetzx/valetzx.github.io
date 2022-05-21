@@ -8,18 +8,18 @@ on:
     - cron: '0 16 * * *'
 
 jobs:
-  mirror_to_gitee:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v1
-      - name: 'Mirror to gitee'
-        uses: pixta-dev/repository-mirroring-action@v1
-        with:
-          target_repo_url:
-            git@gitee.com:valetzx/valetzx.gitee.io.git
-          ssh_private_key:
-            ${{ secrets.GITEE_KEY }}
+#  mirror_to_gitee（gitee🐕都不用202202）: 
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: 'Checkout'
+#        uses: actions/checkout@v1
+#      - name: 'Mirror to gitee'
+#        uses: pixta-dev/repository-mirroring-action@v1
+#        with:
+#          target_repo_url:
+#            git@gitee.com:valetzx/valetzx.gitee.io.git
+#          ssh_private_key:
+#            ${{ secrets.GITEE_KEY }}
 
   mirror_to_gitlab:
     runs-on: ubuntu-latest

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使用ZeroTier居家办公 | 猪猪博客</title>
+<noscript>开启Javascript是必要的</noscript>
+<link rel="icon" type="image/x-icon" href="/img/avatar.webp">
+<link rel="apple-touch-icon" href="/img/avatar.webp">
+<meta name="apple-mobile-web-app-title" content="猪猪博客">
+<link rel="bookmark" href="/img/avatar.webp">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/img/avatar.webp">
+<meta name="description" content="">
+<meta name="theme-color" content="#1C1C1F">
+<link rel="stylesheet" href="/css/var.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    
+
+<link rel="stylesheet" href="/lib/snackbar.min.css">
+
+
+<script src="/lib/qrcode.min.js"></script>
+
+
+
+
+
+<script>var GLOBALCONFIG = {"root":"/","runtime":"2021-12-12 00:00:00","lazyload":{"enable":false,"error":"/img/acrylic.png"},"hightlight":{"enable":true,"limit":200},"lightbox":true,"randomlinks":false,"lang":{"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"recent":"最近","yesterday":"昨天","berforeyesterday":"前天","daybefore":"天前","runtime":"天"},"sayhello":{"morning":"早上好","noon":"中午好","afternoon":"下午好","night":"晚上好","goodnight":"晚安","iam":"!  我是"},"search":{"empty":"搜索结果为空","hit":"已为您找到 ${query} 条结果","placeholder":"输入关键词快速查找"}},"covercolor":true};</script><script id="site-config">var PAGECONFIG = {"is_home":false,"is_post":true,"is_page":false,"page":false,"toc":true,"comment":false};</script>
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body id="body">
+        
+        <div id="console" style="zoom: 1;" class="">
+    <div class="close-btn" onclick="acrylic.hideConsole()" href="javascript:void(0);">
+        <i class="fas fa-circle-xmark"></i>
+    </div>
+    <div class="button-group">
+        <div class="console-btn-item"> <a class="darkmode_switchbutton" onclick="acrylic.switchDarkMode()" title="显示模式切换"
+                href="javascript:void(0);" rel="external nofollow" data-pjax-state=""><i class="fas fa-moon"
+                    style="font-size: 1rem;"></i></a></div>
+        
+        <div class="console-btn-item" id="consoleFPS" onclick="acrylic.FPSToggle()" title="帧率显示开关"><a class="FPS-switch"
+                data-pjax-state=""><i class="fas fa-gauge"></i></a></div>
+    </div>
+    <div class="console-mask" onclick="acrylic.hideConsole()" href="javascript:void(0);" rel="external nofollow"></div>
+</div>
+        <div id="sidebar" style="zoom: 1;">
+    <div id="menu-mask" style="display: none;"></div>
+    <div id="sidebar-menus" class>
+        <span class="sidebar-menu-item-title">功能</span>
+        <div class="sidebar-menu-item">
+            <a class="darkmode_switchbutton menu-child" onclick="acrylic.switchDarkMode()" title="显示模式切换"
+                href="javascript:void(0);" rel="external nofollow">
+                <i class="fas fa-moon" style="font-size: 1rem;"></i>
+                <span>显示模式</span>
+            </a>
+        </div>
+        
+            <div class="back-menu-list-groups">
+    
+  </div>
+  
+        
+        <div class="menus_items">
+    
+</div>
+        <span class="sidebar-menu-item-title">标签</span>
+        <div class="card-widget card-tags card-archives card-webinfo card-allinfo">
+            <div class="item-headline">
+                <i class="fas fa-tags"></i>
+                <span>标签</span>
+            </div>
+            <div class="card-tag-cloud">
+                
+                    <a href="/tags/%E6%AF%95%E8%AE%BE/" style="font-size: 1em; color: #d3d3d3">毕设
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E4%BD%9C%E4%B8%9A/" style="font-size: 1em; color: #d3d3d3">作业
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%AE%BE%E8%AE%A1/" style="font-size: 1em; color: #d3d3d3">设计
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 1em; color: #d3d3d3">日常
+                        <sup>4</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 1em; color: #d3d3d3">记录
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/%E6%B5%81%E6%B0%B4%E8%B4%A6/" style="font-size: 1em; color: #d3d3d3">流水账
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 1em; color: #d3d3d3">教程
+                        <sup>15</sup>
+                    </a>
+                
+                    <a href="/tags/GithubAction/" style="font-size: 1em; color: #d3d3d3">GithubAction
+                        <sup>3</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/" style="font-size: 1em; color: #d3d3d3">自动部署
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E7%99%BD%E5%AB%96/" style="font-size: 1em; color: #d3d3d3">白嫖
+                        <sup>14</sup>
+                    </a>
+                
+                    <a href="/tags/%E7%BD%91%E7%9B%98/" style="font-size: 1em; color: #d3d3d3">网盘
+                        <sup>5</sup>
+                    </a>
+                
+                    <a href="/tags/%E5%9B%BE%E5%BA%8A/" style="font-size: 1em; color: #d3d3d3">图床
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/OneDrive/" style="font-size: 1em; color: #d3d3d3">OneDrive
+                        <sup>5</sup>
+                    </a>
+                
+                    <a href="/tags/ZeroTier/" style="font-size: 1em; color: #d3d3d3">ZeroTier
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Alist/" style="font-size: 1em; color: #d3d3d3">Alist
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/SSH/" style="font-size: 1em; color: #d3d3d3">SSH
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Replit/" style="font-size: 1em; color: #d3d3d3">Replit
+                        <sup>5</sup>
+                    </a>
+                
+                    <a href="/tags/%E7%9F%A5%E4%B9%8E/" style="font-size: 1em; color: #d3d3d3">知乎
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 1em; color: #d3d3d3">转载
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Docker/" style="font-size: 1em; color: #d3d3d3">Docker
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/Github/" style="font-size: 1em; color: #d3d3d3">Github
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Azure/" style="font-size: 1em; color: #d3d3d3">Azure
+                        <sup>1</sup>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</div>    
+        
+            <div class="post" id="body-wrap">
+                <header class="post-bg" id="page-header">
+    <nav id="nav" class="show">
+    <div id="nav-group">
+        <div id="blog_name">
+            
+                <div class="back-home-button" tabindex="-1">
+                    <i class="back-home-button-icon fas fa-grip-vertical"></i>
+                    <div class="back-menu-list-groups">
+    
+  </div>
+  
+                </div>
+            
+            <a id="site-name" href="/" title="返回博客主页">
+                    
+                        <span class="heoicon">Home</span>
+                    
+            </a>
+        </div>
+        <div id="page-name-mask">
+            <div id="page-name">
+                <a id="page-name-text" onclick="acrylic.toTop()">使用ZeroTier居家办公</a>
+            </div>
+        </div>
+        <div id="menus">
+            <div class="menus_items">
+    
+</div>
+        </div>
+        <!-- <div id="nav-left">
+            <div id="fps-group">
+                <div id="fps">145</div><span class="fpsText">FPS</span>
+            </div>
+        </div> -->
+        <div id="nav-right">
+            
+    <div class="nav-button only-home" id="travellings_button">
+        <a class="site-page"  target="_blank" rel="noopener external nofollow" href="https://www.travellings.cn/go.html" title="开往-友链接力"  width="120">
+            <i class="fa-solid fa-train-subway" style="font-size: 1rem;"></i>
+        </a>
+    </div>
+
+
+    <div class="nav-button" id="randomPost_button">
+        <a class="site-page" onclick="toRandomPost()"
+            title="随机前往一个文章">
+            <i class="fas fa-shuffle" style="font-size: 1rem;"></i>
+        </a>
+    </div>
+
+
+
+    <div class="nav-button" id="nav-console">
+        <a class="console_switchbutton" onclick="acrylic.showConsole()"
+        title="显示中控台" href="javascript:void(0);" rel="external nofollow">
+        <i class="fas fa-bars-progress" style="font-size: 1rem;"></i>
+        </a>
+    </div>
+
+<div class="nav-button" id="nav-totop" onclick="acrylic.toTop()">
+    <a class="totopbtn">
+        <i class="fas fa-arrow-up"></i>
+        <span id="percent">0</span>
+    </a>
+</div>
+<div id="toggle-menu">
+    <a class="site-page">
+        <i class="fas fa-bars fa-fw" style="font-size: 1rem;"></i>
+    </a>
+</div>
+        </div>
+    </div>
+</nav>
+    
+        <div class="coverdiv" id="coverdiv">
+    <img id="post-cover" class="nolazyload" src="/img/hello.jpg" alt="cover">
+</div>
+<div id="post-info">
+    <div id="post-firstinfo">
+        <div class="meta-firstline">
+            <a class="post-meta-original" title="该文章为原创文章，注意版权协议">
+                原创
+            </a>
+            
+            <div class="tag_share">
+                <div class="post-meta__tag-list">
+                    
+                        <a class="post-meta__tags" href="/tags/%E6%95%99%E7%A8%8B/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">教程</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/%E7%99%BD%E5%AB%96/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">白嫖</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/%E7%BD%91%E7%9B%98/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">网盘</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/OneDrive/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">OneDrive</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/ZeroTier/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">ZeroTier</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/Alist/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">Alist</span>
+                        </a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 class="post-title">使用ZeroTier居家办公</h1>
+    <div id="post-meta">
+        <div class="meta-secondline">
+            <span class="post-meta-date" title="发布于">
+                <i class="post-meta-icon fa-fw fas fa-calendar"></i>
+                <time datetime="2022-03-22T22:22:22+00:00"></time>
+            </span>
+            
+            
+                <span class="post-meta-position" title="作者IP归属地为北京">
+                    <i class="fas fa-location-dot post-meta-icon"></i>
+                    <span>北京</span>
+                </span>
+            
+            
+            
+                
+        </div>
+    </div>
+</div>
+<section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg"
+    xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+    <defs>
+        <path id="gentle-wave"
+            d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path>
+    </defs>
+    <g class="parallax">
+        <use href="#gentle-wave" x="48" y="0"></use>
+        <use href="#gentle-wave" x="48" y="3"></use>
+        <use href="#gentle-wave" x="48" y="5"></use>
+        <use href="#gentle-wave" x="48" y="7"></use>
+    </g>
+</svg>
+</section>
+
+        
+</header>
+                <main class="layout" id="content-inner">
+    <div id="post">
+        <article class="post-content" id="article-container">
+            <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>疫情间需要居家办公怎么办？单位电脑有资料临时要用怎么办？本次给大家带来许多局域网应用教程。所有程序均在局域网运行，理论上没有被攻击的隐患。<strong>注意！以下教程使用到的阿里云盘在2022&#x2F;03&#x2F;28后均有概率封号。云盘请选择OneDrive或其他。</strong></p>
+<h1 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h1><p>安装好 Zerotier 并完成局域网连接。</p>
+<h1 id="开始："><a href="#开始：" class="headerlink" title="开始："></a>开始：</h1><h3 id="Zerotier（局域网P2P的神！）-Alist（一个网盘挂载程序）-ES-file-manager（ES文件浏览器）实现手机备份任意文件至任意网盘。"><a href="#Zerotier（局域网P2P的神！）-Alist（一个网盘挂载程序）-ES-file-manager（ES文件浏览器）实现手机备份任意文件至任意网盘。" class="headerlink" title="Zerotier（局域网P2P的神！）+Alist（一个网盘挂载程序）+ES file manager（ES文件浏览器）实现手机备份任意文件至任意网盘。"></a>Zerotier（局域网P2P的神！）+Alist（一个网盘挂载程序）+ES file manager（ES文件浏览器）实现手机备份任意文件至任意网盘。</h3><details><summary>使用ES文件浏览器手机备份任意文件至任意网盘,,bg,color</summary></details>
+
+<p>文章备份：</p>
+<h3 id="使用Aria2-家用电脑-宝塔面板（辅助）-CloudDrive（辅助）实现网页离线下载文件至OneDrive-x2F-阿里云盘-x2F-天翼云盘-x2F-115云盘等。"><a href="#使用Aria2-家用电脑-宝塔面板（辅助）-CloudDrive（辅助）实现网页离线下载文件至OneDrive-x2F-阿里云盘-x2F-天翼云盘-x2F-115云盘等。" class="headerlink" title="使用Aria2+家用电脑+宝塔面板（辅助）+CloudDrive（辅助）实现网页离线下载文件至OneDrive&#x2F;阿里云盘&#x2F;天翼云盘&#x2F;115云盘等。"></a>使用Aria2+家用电脑+宝塔面板（辅助）+CloudDrive（辅助）实现网页离线下载文件至OneDrive&#x2F;阿里云盘&#x2F;天翼云盘&#x2F;115云盘等。</h3><details><summary>使用Aria2离线下载文件至OneDrive,,bg,color</summary></details>
+
+<p>文章备份：</p>
+<h3 id="使用KodBox搭建文件管理器，可以随时随地网页浏览电脑文件（支持浏览编辑Excel、Word、PPT、图片、文档、PDF、音乐等，甚至支持在线PS，在线CAD查看，NES模拟器游玩等丰富功能。）"><a href="#使用KodBox搭建文件管理器，可以随时随地网页浏览电脑文件（支持浏览编辑Excel、Word、PPT、图片、文档、PDF、音乐等，甚至支持在线PS，在线CAD查看，NES模拟器游玩等丰富功能。）" class="headerlink" title="使用KodBox搭建文件管理器，可以随时随地网页浏览电脑文件（支持浏览编辑Excel、Word、PPT、图片、文档、PDF、音乐等，甚至支持在线PS，在线CAD查看，NES模拟器游玩等丰富功能。）"></a>使用KodBox搭建文件管理器，可以随时随地网页浏览电脑文件（支持浏览编辑Excel、Word、PPT、图片、文档、PDF、音乐等，甚至支持在线PS，在线CAD查看，NES模拟器游玩等丰富功能。）</h3><details><summary>使用KodBox搭建文件管理器,,bg,color</summary></details>
+
+<p>文章备份：</p>
+
+        </article>
+        <div class="post-tools" id="post-tools">
+            <div class="post-tools-left">
+                
+                <div class="share-link mobile">
+    <div class="share-qrcode">
+        <div class="share-button" title="使用手机访问这篇文章">
+            <i class="fas fa-qrcode"></i>
+        </div>
+        <div class="share-main">
+            <div class="share-main-all">
+                <div id="qrcode" title="https://valetzx.github.io/2022/03/22/007-zerotiertoolmy/">
+                </div>
+                <div class="reward-dec">使用手机访问这篇文章</div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            new QRCode(document.getElementById("qrcode"), "https://valetzx.github.io/2022/03/22/007-zerotiertoolmy/");
+        </script>
+    </div>
+</div>
+                <div class="share-link weibo"><a class="share-button" target="_blank"
+    href="https://service.weibo.com/share/share.php?title=使用ZeroTier居家办公&amp;url=https://valetzx.github.io/2022/03/22/007-zerotiertoolmy/&amp;pic=/img/hello.jpg"
+    title="分享到微博" rel="noopener external nofollow noreferrer noopener">
+    <i class="fab fa-weibo" style="font-size:22px"></i>
+</a>
+</div>
+<div class="share-link copyurl">
+<div class="share-button" id="post-share-url" title="复制链接" onclick="acrylic.copyPageUrl()">
+    <i class="fas fa-link"></i>
+</div>
+</div>
+            </div>
+            <div class="post-tools-right">
+                <div class="tag_share">
+                    <div class="post-meta__tag-list">
+                        
+                            <a href="/tags/%E6%95%99%E7%A8%8B/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                教程
+                                <span class="tagsPageCount">15</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%99%BD%E5%AB%96/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                白嫖
+                                <span class="tagsPageCount">14</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%BD%91%E7%9B%98/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                网盘
+                                <span class="tagsPageCount">5</span>
+                            </a>
+                        
+                            <a href="/tags/OneDrive/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                OneDrive
+                                <span class="tagsPageCount">5</span>
+                            </a>
+                        
+                            <a href="/tags/ZeroTier/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                ZeroTier
+                                <span class="tagsPageCount">1</span>
+                            </a>
+                        
+                            <a href="/tags/Alist/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                Alist
+                                <span class="tagsPageCount">1</span>
+                            </a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="post-copyright">
+    <div class="post-copyright__author">
+        <a class="post-copyright__original" title="该文章为原创文章，注意版权协议">原创</a>
+        <a class="post-copyright-title" href="#">
+            <span>使用ZeroTier居家办公</span>
+        </a>
+    </div>
+    <div class="post-copyright__type">
+        <span class="post-copyright-info" id="post-copyright-url">
+            <a href="/2022/03/22/007-zerotiertoolmy/">https://valetzx.github.io/2022/03/22/007-zerotiertoolmy/</a>
+        </span>
+        <button class="post-copyright-copybtn" onclick="acrylic.copyPageUrl()">
+            <i class="fas fa-paste copy-btn"></i>
+        </button>
+    </div>
+    <div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用 <a
+                href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a> 协议，完整转载请注明来自 <a
+                href="/">猪猪博客</a>
+            </span>
+        </div>
+</div>
+        <nav class="pagination-post" id="pagination">
+    
+        <div class="prev-post pull-left">
+            <a href="/2022/04/04/008-autobackuplinux/">
+                <div class="pagination-info">
+                    <div class="label">上一篇</div>
+                    <div class="prev_info">使用脚本定时备份SSH中任意文件至SSH或任意网盘</div>
+                </div>
+            </a>
+        </div>
+        <div class="next-post pull-right">
+            <a href="/2022/03/12/006-picgoimgsupload/">
+                <div class="pagination-info">
+                    <div class="label">下一篇</div>
+                    <div class="next_info">使用Typora写作并配置PicGo图床推荐</div>
+                </div>
+            </a>
+        </div>
+    
+</nav>
+            
+    </div>
+    <div class="aside-content" id="aside-content">
+    
+    
+        
+        <div class="card-widget card-info">
+    <div class="card-content">
+        <div class="card-info-avatar is-center">
+            <div class="author-info__sayhi" id="author-info__sayhi">
+            </div>
+            <div class="author-info__name">
+                金桔猪
+            </div>
+            <div class="author-info__description">这有关于<b>开发</b>、<b>室内设计</b>相关的问题和看法，还有对于游戏的一些<b>杂评</b>。<br>相信你可以在这里找到对你有用的知识和教程。</div>
+        </div>
+    </div>
+    <div class="banner-button-group">
+        <a class="banner-button" href="/">
+            <i class="fas fa-circle-chevron-right"></i>
+            <span class="banner-button-text">个人主页</span>
+        </a>
+    </div>
+    <div class="card-info-social-icons is-center">
+        
+            <a class="social-icon" target="_blank" rel="noopener" href="https://github.com/valetzx" title="Github">
+                <i class="fa-brands fa-github"></i>
+            </a>
+        
+            <a class="social-icon" href="mailto:a@nalex.top" title="Mail">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
+        
+    </div>
+</div>
+     
+    
+    <div class="sticky_layout">
+        
+            <div class="card-widget" id="card-toc">
+    <div class="item-headline">
+        <i class="fas fa-bars"></i>
+        <span>文章目录</span>
+    </div>
+    <div class="toc-content" id="toc-content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A"><span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%86%E5%A4%87%EF%BC%9A"><span class="toc-text">准备：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%EF%BC%9A"><span class="toc-text">开始：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Zerotier%EF%BC%88%E5%B1%80%E5%9F%9F%E7%BD%91P2P%E7%9A%84%E7%A5%9E%EF%BC%81%EF%BC%89-Alist%EF%BC%88%E4%B8%80%E4%B8%AA%E7%BD%91%E7%9B%98%E6%8C%82%E8%BD%BD%E7%A8%8B%E5%BA%8F%EF%BC%89-ES-file-manager%EF%BC%88ES%E6%96%87%E4%BB%B6%E6%B5%8F%E8%A7%88%E5%99%A8%EF%BC%89%E5%AE%9E%E7%8E%B0%E6%89%8B%E6%9C%BA%E5%A4%87%E4%BB%BD%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%87%B3%E4%BB%BB%E6%84%8F%E7%BD%91%E7%9B%98%E3%80%82"><span class="toc-text">Zerotier（局域网P2P的神！）+Alist（一个网盘挂载程序）+ES file manager（ES文件浏览器）实现手机备份任意文件至任意网盘。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Aria2-%E5%AE%B6%E7%94%A8%E7%94%B5%E8%84%91-%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF%EF%BC%88%E8%BE%85%E5%8A%A9%EF%BC%89-CloudDrive%EF%BC%88%E8%BE%85%E5%8A%A9%EF%BC%89%E5%AE%9E%E7%8E%B0%E7%BD%91%E9%A1%B5%E7%A6%BB%E7%BA%BF%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6%E8%87%B3OneDrive-x2F-%E9%98%BF%E9%87%8C%E4%BA%91%E7%9B%98-x2F-%E5%A4%A9%E7%BF%BC%E4%BA%91%E7%9B%98-x2F-115%E4%BA%91%E7%9B%98%E7%AD%89%E3%80%82"><span class="toc-text">使用Aria2+家用电脑+宝塔面板（辅助）+CloudDrive（辅助）实现网页离线下载文件至OneDrive&#x2F;阿里云盘&#x2F;天翼云盘&#x2F;115云盘等。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8KodBox%E6%90%AD%E5%BB%BA%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%8C%E5%8F%AF%E4%BB%A5%E9%9A%8F%E6%97%B6%E9%9A%8F%E5%9C%B0%E7%BD%91%E9%A1%B5%E6%B5%8F%E8%A7%88%E7%94%B5%E8%84%91%E6%96%87%E4%BB%B6%EF%BC%88%E6%94%AF%E6%8C%81%E6%B5%8F%E8%A7%88%E7%BC%96%E8%BE%91Excel%E3%80%81Word%E3%80%81PPT%E3%80%81%E5%9B%BE%E7%89%87%E3%80%81%E6%96%87%E6%A1%A3%E3%80%81PDF%E3%80%81%E9%9F%B3%E4%B9%90%E7%AD%89%EF%BC%8C%E7%94%9A%E8%87%B3%E6%94%AF%E6%8C%81%E5%9C%A8%E7%BA%BFPS%EF%BC%8C%E5%9C%A8%E7%BA%BFCAD%E6%9F%A5%E7%9C%8B%EF%BC%8CNES%E6%A8%A1%E6%8B%9F%E5%99%A8%E6%B8%B8%E7%8E%A9%E7%AD%89%E4%B8%B0%E5%AF%8C%E5%8A%9F%E8%83%BD%E3%80%82%EF%BC%89"><span class="toc-text">使用KodBox搭建文件管理器，可以随时随地网页浏览电脑文件（支持浏览编辑Excel、Word、PPT、图片、文档、PDF、音乐等，甚至支持在线PS，在线CAD查看，NES模拟器游玩等丰富功能。）</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+            
+        
+            
+        <div class="card-widget card-recent-post">
+    <div class="item-headline">
+        <i class="fas fa-list-ol"></i>
+        <span>最近发布</span>
+    </div>
+    <div class="aside-list">
+        
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/2023/06/10/hello-world/" title="无标题">
+                    <img
+                        alt="无标题"
+                        src="/img/hello.jpg">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/2023/06/10/hello-world/" title="无标题">
+                        无标题
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/2022/08/12/021-dockervolumeplugin/" title="在Docker中使用Rclone作为储存卷">
+                    <img
+                        alt="在Docker中使用Rclone作为储存卷"
+                        src="https://bing.icodeq.com/?17">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/2022/08/12/021-dockervolumeplugin/" title="在Docker中使用Rclone作为储存卷">
+                        在Docker中使用Rclone作为储存卷
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/2022/07/12/020-newsonreplit/" title="在Replit部署每日新闻项目">
+                    <img
+                        alt="在Replit部署每日新闻项目"
+                        src="https://bing.icodeq.com/?16">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/2022/07/12/020-newsonreplit/" title="在Replit部署每日新闻项目">
+                        在Replit部署每日新闻项目
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/2022/07/04/019-daily0704/" title="信息泄露分析以及日常">
+                    <img
+                        alt="信息泄露分析以及日常"
+                        src="https://bing.icodeq.com/?14">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/2022/07/04/019-daily0704/" title="信息泄露分析以及日常">
+                        信息泄露分析以及日常
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/2022/06/28/018-GithubStudentsPack/" title="白嫖Github学生包！">
+                    <img
+                        alt="白嫖Github学生包！"
+                        src="https://bing.icodeq.com/?13">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/2022/06/28/018-GithubStudentsPack/" title="白嫖Github学生包！">
+                        白嫖Github学生包！
+                    </a>
+                </div>
+            </div>
+            
+    </div>
+</div>
+     
+        
+    </div>
+</div> 
+</main>
+                <footer id="footer">
+                    <div id="footer_deal">
+    
+    <img class="footer_mini_logo" src="/img/avatar.webp"
+        title="返回顶部" onclick="acrylic.toTop()">
+    
+</div>    
+<div id="heo-footer">
+    
+    
+</div>
+<div id="footer-section">
+    <div class="footer-section-links">
+        <div class="footer-section-left">
+            <div id="footer-section-tips">
+                <div class="copyright">©2021 - 2023 By 
+                    <a class="footer-section-link" href="/" rel="external nofollow">金桔猪</a>
+                    <a class="footer-section-link" href="https://github.com/hexo-theme-Acrylic/Hexo-Theme-Acrylic-Next" rel="external nofollow" target="_blank"> Theme By Acrylic-Next</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-section-right">
+            <a class="footer-section-link" href="/rss/">订阅</a>
+            
+            <a class="footer-section-link cc" target="_blank" href="https://creativecommons.org/licenses/by/4.0/" title="cc协议">
+                <i class="fa-solid fa-closed-captioning"></i>
+            </a>
+        </div>
+    </div>
+</div>
+                </footer>
+            </div>
+         
+        <div>
+    <script type="text/javascript" src="/js/utils.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    
+
+<script src="/lib/pjax.min.js"></script>
+
+
+
+<script src="/lib/snackbar.min.js"></script>
+
+
+    
+<script src="/lib/view-image.min.js"></script>
+
+
+
+<div id="js-pjax">
+    
+     
+</div>
+
+
+    
+<script src="/js/extend/covercolor/web.js"></script>
+
+        
+
+    <script>
+  let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax'
+  ]
+  
+  const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+  })
+
+  document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+</script>
+    
+</div>
+        
+     
+        <div class="needEndHide" id="nav-music" onclick="acrylic.musicToggle()">
+    <div id="nav-music-hoverTips">音乐已暂停</div>
+    <meting-js id="1708664797" server="tencent" type="playlist" mutex="true"
+        preload="none" data-lrctype="0" order="random" theme="var(--heo-main)"></meting-js>
+</div>
+    
+    </body>
+</html>
+<script>const posts=["2023/06/10/hello-world/","2022/08/12/021-dockervolumeplugin/","2022/07/12/020-newsonreplit/","2022/07/04/019-daily0704/","2022/06/28/018-GithubStudentsPack/","2022/06/10/017-macosindocker/","2022/06/06/016-xdotoolp1/","2022/05/23/015-zhihu01/","2022/05/08/014-autowebsnapaction/","2022/04/30/013-mssecretkeyforever/","2022/04/22/012-uptimeonrepl/","2022/04/20/011-nixonreplit/","2022/04/19/010-mcsonreplit/","2022/04/17/009-usereplitdo/","2022/04/04/008-autobackuplinux/","2022/03/22/007-zerotiertoolmy/","2022/03/12/006-picgoimgsupload/","2022/03/10/005-GithubActionPushCloud/","2022/03/08/004-freetime/","2022/02/26/002-achievements/","2022/02/25/000-boxfinal/","2022/02/24/003-villadesign/"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

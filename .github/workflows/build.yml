@@ -36,8 +36,6 @@ jobs:
       # 将编译后的博客文件推送到指定仓库
         run: |
           git init && git add .
-          git config user.name "valetzx"
-          git config user.email "550029691@qq.com"
           git add .
           git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
           git push

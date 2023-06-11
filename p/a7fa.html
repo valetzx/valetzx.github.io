@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使用GithubAction推送仓库至任意网盘 | 猪猪博客</title>
+<noscript>开启Javascript是必要的</noscript>
+<link rel="icon" type="image/x-icon" href="/img/avatar.webp">
+<link rel="apple-touch-icon" href="/img/avatar.webp">
+<meta name="apple-mobile-web-app-title" content="猪猪博客">
+<link rel="bookmark" href="/img/avatar.webp">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/img/avatar.webp">
+<meta name="description" content="">
+<meta name="theme-color" content="#1C1C1F">
+<link rel="stylesheet" href="/css/var.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    
+
+<link rel="stylesheet" href="/lib/snackbar.min.css">
+
+
+<script src="/lib/qrcode.min.js"></script>
+
+
+
+
+
+<script>var GLOBALCONFIG = {"root":"/","runtime":"2021-12-12 00:00:00","lazyload":{"enable":false,"error":"/img/acrylic.png"},"hightlight":{"enable":true,"limit":200},"lightbox":true,"randomlinks":false,"lang":{"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"recent":"最近","yesterday":"昨天","berforeyesterday":"前天","daybefore":"天前","runtime":"天"},"sayhello":{"morning":"早上好","noon":"中午好","afternoon":"下午好","night":"晚上好","goodnight":"晚安","iam":"!  我是"},"search":{"empty":"搜索结果为空","hit":"已为您找到 ${query} 条结果","placeholder":"输入关键词快速查找"}},"covercolor":true,"comment":{"enable":false,"twikooUrl":null}};</script><script id="site-config">var PAGECONFIG = {"is_home":false,"is_post":true,"is_page":false,"page":false,"toc":true,"comment":false};</script>
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body id="body">
+        
+        <div id="console" style="zoom: 1;" class="">
+    <div class="close-btn" onclick="acrylic.hideConsole()" href="javascript:void(0);">
+        <i class="fas fa-circle-xmark"></i>
+    </div>
+    
+        <div class="console-card-group">
+            <div class="console-card-group-left">
+                <div class="console-card" id="card-newest-comments" onclick="acrylic.hideConsole()">
+                    <div class="card-content">
+                        <div class="author-content-item-tips">互动</div>
+                        <div class="author-content-item-title">最新评论</div>
+                    </div>
+                    <div class="aside-list"></div>
+                </div>
+    
+            </div>
+            <div class="console-card-group-right">
+                <div class="console-card tags" onclick="acrylic.hideConsole()">
+                    <div class="card-content">
+                        <div class="author-content-item-tips">标签</div>
+                        <div class="author-content-item-title">寻找感兴趣的领域</div>
+                    </div>
+                    <div class="card-tag-cloud">
+                        
+                            <a href="/tags/%E6%AF%95%E8%AE%BE/" style="font-size: 0.8rem; color: #d3d3d3">毕设<sup>1</sup></a>
+                        
+                            <a href="/tags/%E4%BD%9C%E4%B8%9A/" style="font-size: 0.8rem; color: #d3d3d3">作业<sup>2</sup></a>
+                        
+                            <a href="/tags/%E8%AE%BE%E8%AE%A1/" style="font-size: 0.8rem; color: #d3d3d3">设计<sup>2</sup></a>
+                        
+                            <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 0.8rem; color: #d3d3d3">日常<sup>5</sup></a>
+                        
+                            <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 0.8rem; color: #d3d3d3">记录<sup>2</sup></a>
+                        
+                            <a href="/tags/%E6%B5%81%E6%B0%B4%E8%B4%A6/" style="font-size: 0.8rem; color: #d3d3d3">流水账<sup>1</sup></a>
+                        
+                            <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 0.8rem; color: #d3d3d3">教程<sup>16</sup></a>
+                        
+                            <a href="/tags/GithubAction/" style="font-size: 0.8rem; color: #d3d3d3">GithubAction<sup>3</sup></a>
+                        
+                            <a href="/tags/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/" style="font-size: 0.8rem; color: #d3d3d3">自动部署<sup>1</sup></a>
+                        
+                            <a href="/tags/%E7%99%BD%E5%AB%96/" style="font-size: 0.8rem; color: #d3d3d3">白嫖<sup>14</sup></a>
+                        
+                            <a href="/tags/%E7%BD%91%E7%9B%98/" style="font-size: 0.8rem; color: #d3d3d3">网盘<sup>5</sup></a>
+                        
+                            <a href="/tags/%E5%9B%BE%E5%BA%8A/" style="font-size: 0.8rem; color: #d3d3d3">图床<sup>1</sup></a>
+                        
+                            <a href="/tags/OneDrive/" style="font-size: 0.8rem; color: #d3d3d3">OneDrive<sup>5</sup></a>
+                        
+                            <a href="/tags/ZeroTier/" style="font-size: 0.8rem; color: #d3d3d3">ZeroTier<sup>1</sup></a>
+                        
+                            <a href="/tags/Alist/" style="font-size: 0.8rem; color: #d3d3d3">Alist<sup>1</sup></a>
+                        
+                            <a href="/tags/SSH/" style="font-size: 0.8rem; color: #d3d3d3">SSH<sup>1</sup></a>
+                        
+                            <a href="/tags/Replit/" style="font-size: 0.8rem; color: #d3d3d3">Replit<sup>5</sup></a>
+                        
+                            <a href="/tags/%E7%9F%A5%E4%B9%8E/" style="font-size: 0.8rem; color: #d3d3d3">知乎<sup>1</sup></a>
+                        
+                            <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 0.8rem; color: #d3d3d3">转载<sup>1</sup></a>
+                        
+                            <a href="/tags/Docker/" style="font-size: 0.8rem; color: #d3d3d3">Docker<sup>2</sup></a>
+                        
+                            <a href="/tags/Github/" style="font-size: 0.8rem; color: #d3d3d3">Github<sup>1</sup></a>
+                        
+                            <a href="/tags/Azure/" style="font-size: 0.8rem; color: #d3d3d3">Azure<sup>1</sup></a>
+                        
+                    </div>
+                </div>
+                <div class="console-card history" onclick="acrylic.hideConsole()">
+                    <ul class="card-archive-list">
+    
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2023-06/')" data-pjax-state=""><span
+            class="card-archive-list-date">2023-06</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-08/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-08</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-07/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-07</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-06/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-06</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-05/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-05</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-04/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-04</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">6</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-03/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-03</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-02/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-02</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+        
+</ul>
+
+                </div>
+            </div>
+        </div>
+    
+    
+    <div class="button-group">
+        <div class="console-btn-item"> <a class="darkmode_switchbutton" onclick="acrylic.switchDarkMode()" title="显示模式切换"
+                href="javascript:void(0);" rel="external nofollow" data-pjax-state=""><i class="fas fa-moon"
+                    style="font-size: 1rem;"></i></a></div>
+                    
+            <div class="console-btn-item" id="consoleMusic" onclick="acrylic.musicToggle()" title="音乐开关"><a class="music-switch"><i class="fas fa-music"></i></a></div>
+        
+    </div>
+    <div class="console-mask" onclick="acrylic.hideConsole()" href="javascript:void(0);" rel="external nofollow"></div>
+</div>
+        <div id="sidebar" style="zoom: 1;">
+    <div id="menu-mask" style="display: none;"></div>
+    <div id="sidebar-menus" class>
+        <span class="sidebar-menu-item-title">功能</span>
+        <div class="sidebar-menu-item">
+            <a class="darkmode_switchbutton menu-child" onclick="acrylic.switchDarkMode()" title="显示模式切换"
+                href="javascript:void(0);" rel="external nofollow">
+                <i class="fas fa-moon" style="font-size: 1rem;"></i>
+                <span>显示模式</span>
+            </a>
+        </div>
+        
+            <div class="back-menu-list-groups">
+    
+  </div>
+  
+        
+        <div class="menus_items">
+    
+</div>
+        <span class="sidebar-menu-item-title">标签</span>
+        <div class="card-widget card-tags card-archives card-webinfo card-allinfo">
+            <div class="item-headline">
+                <i class="fas fa-tags"></i>
+                <span>标签</span>
+            </div>
+            <div class="card-tag-cloud">
+                
+                    <a href="/tags/%E6%AF%95%E8%AE%BE/" style="font-size: 1em; color: #d3d3d3">毕设
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E4%BD%9C%E4%B8%9A/" style="font-size: 1em; color: #d3d3d3">作业
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%AE%BE%E8%AE%A1/" style="font-size: 1em; color: #d3d3d3">设计
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 1em; color: #d3d3d3">日常
+                        <sup>5</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 1em; color: #d3d3d3">记录
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/%E6%B5%81%E6%B0%B4%E8%B4%A6/" style="font-size: 1em; color: #d3d3d3">流水账
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 1em; color: #d3d3d3">教程
+                        <sup>16</sup>
+                    </a>
+                
+                    <a href="/tags/GithubAction/" style="font-size: 1em; color: #d3d3d3">GithubAction
+                        <sup>3</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/" style="font-size: 1em; color: #d3d3d3">自动部署
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E7%99%BD%E5%AB%96/" style="font-size: 1em; color: #d3d3d3">白嫖
+                        <sup>14</sup>
+                    </a>
+                
+                    <a href="/tags/%E7%BD%91%E7%9B%98/" style="font-size: 1em; color: #d3d3d3">网盘
+                        <sup>5</sup>
+                    </a>
+                
+                    <a href="/tags/%E5%9B%BE%E5%BA%8A/" style="font-size: 1em; color: #d3d3d3">图床
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/OneDrive/" style="font-size: 1em; color: #d3d3d3">OneDrive
+                        <sup>5</sup>
+                    </a>
+                
+                    <a href="/tags/ZeroTier/" style="font-size: 1em; color: #d3d3d3">ZeroTier
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Alist/" style="font-size: 1em; color: #d3d3d3">Alist
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/SSH/" style="font-size: 1em; color: #d3d3d3">SSH
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Replit/" style="font-size: 1em; color: #d3d3d3">Replit
+                        <sup>5</sup>
+                    </a>
+                
+                    <a href="/tags/%E7%9F%A5%E4%B9%8E/" style="font-size: 1em; color: #d3d3d3">知乎
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 1em; color: #d3d3d3">转载
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Docker/" style="font-size: 1em; color: #d3d3d3">Docker
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/Github/" style="font-size: 1em; color: #d3d3d3">Github
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Azure/" style="font-size: 1em; color: #d3d3d3">Azure
+                        <sup>1</sup>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</div>    
+        
+            <div class="post" id="body-wrap">
+                <header class="post-bg" id="page-header">
+    <nav id="nav" class="show">
+    <div id="nav-group">
+        <div id="blog_name">
+            
+                <div class="back-home-button" tabindex="-1">
+                    <i class="back-home-button-icon fas fa-grip-vertical"></i>
+                    <div class="back-menu-list-groups">
+    
+  </div>
+  
+                </div>
+            
+            <a id="site-name" href="/" title="返回博客主页">
+                    
+                        <span class="heoicon">Home</span>
+                    
+            </a>
+        </div>
+        <div id="page-name-mask">
+            <div id="page-name">
+                <a id="page-name-text" onclick="acrylic.toTop()">使用GithubAction推送仓库至任意网盘</a>
+            </div>
+        </div>
+        <div id="menus">
+            <div class="menus_items">
+    
+</div>
+        </div>
+        <!-- <div id="nav-left">
+            <div id="fps-group">
+                <div id="fps">145</div><span class="fpsText">FPS</span>
+            </div>
+        </div> -->
+        <div id="nav-right">
+            
+    <div class="nav-button only-home" id="travellings_button">
+        <a class="site-page"  target="_blank" rel="noopener external nofollow" href="https://www.travellings.cn/go.html" title="开往-友链接力"  width="120">
+            <i class="fa-solid fa-train-subway" style="font-size: 1rem;"></i>
+        </a>
+    </div>
+
+
+    <div class="nav-button" id="randomPost_button">
+        <a class="site-page" onclick="toRandomPost()"
+            title="随机前往一个文章">
+            <i class="fas fa-shuffle" style="font-size: 1rem;"></i>
+        </a>
+    </div>
+
+
+
+    <div class="nav-button" id="nav-console">
+        <a class="console_switchbutton" onclick="acrylic.showConsole()"
+        title="显示中控台" href="javascript:void(0);" rel="external nofollow">
+        <i class="fas fa-bars-progress" style="font-size: 1rem;"></i>
+        </a>
+    </div>
+
+<div class="nav-button" id="nav-totop" onclick="acrylic.toTop()">
+    <a class="totopbtn">
+        <i class="fas fa-arrow-up"></i>
+        <span id="percent">0</span>
+    </a>
+</div>
+<div id="toggle-menu">
+    <a class="site-page">
+        <i class="fas fa-bars fa-fw" style="font-size: 1rem;"></i>
+    </a>
+</div>
+        </div>
+    </div>
+</nav>
+    
+        <div class="coverdiv" id="coverdiv">
+    <img id="post-cover" class="nolazyload" src="https://img.pighog.repl.co/2022/03/psc.jpg" alt="cover">
+</div>
+<div id="post-info">
+    <div id="post-firstinfo">
+        <div class="meta-firstline">
+            <a class="post-meta-original" title="该文章为原创文章，注意版权协议">
+                原创
+            </a>
+            
+            <div class="tag_share">
+                <div class="post-meta__tag-list">
+                    
+                        <a class="post-meta__tags" href="/tags/%E6%95%99%E7%A8%8B/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">教程</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/GithubAction/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">GithubAction</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">自动部署</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/%E7%99%BD%E5%AB%96/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">白嫖</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/%E7%BD%91%E7%9B%98/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">网盘</span>
+                        </a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 class="post-title">使用GithubAction推送仓库至任意网盘</h1>
+    <div id="post-meta">
+        <div class="meta-secondline">
+            <span class="post-meta-date" title="发布于">
+                <i class="post-meta-icon fa-fw fas fa-calendar"></i>
+                <time datetime="2022-03-10T09:12:34+00:00"></time>
+            </span>
+            
+            
+                <span class="post-meta-position" title="作者IP归属地为江苏">
+                    <i class="fas fa-location-dot post-meta-icon"></i>
+                    <span>江苏</span>
+                </span>
+            
+            
+            
+                
+        </div>
+    </div>
+</div>
+<section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg"
+    xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+    <defs>
+        <path id="gentle-wave"
+            d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path>
+    </defs>
+    <g class="parallax">
+        <use href="#gentle-wave" x="48" y="0"></use>
+        <use href="#gentle-wave" x="48" y="3"></use>
+        <use href="#gentle-wave" x="48" y="5"></use>
+        <use href="#gentle-wave" x="48" y="7"></use>
+    </g>
+</svg>
+</section>
+
+        
+</header>
+                <main class="layout" id="content-inner">
+    <div id="post">
+        <article class="post-content" id="article-container">
+            <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><h3 id="Github站队，虽然不影响我们使用，但是这里发一个备份方法，希望帮助到有这样想法的大家。"><a href="#Github站队，虽然不影响我们使用，但是这里发一个备份方法，希望帮助到有这样想法的大家。" class="headerlink" title="Github站队，虽然不影响我们使用，但是这里发一个备份方法，希望帮助到有这样想法的大家。"></a>Github站队，虽然不影响我们使用，但是这里发一个备份方法，希望帮助到有这样想法的大家。</h3><h3 id="同时还有Github同步到Gitee，Gitlab的Action，后面会一起发（这个网上其实很多）。"><a href="#同时还有Github同步到Gitee，Gitlab的Action，后面会一起发（这个网上其实很多）。" class="headerlink" title="同时还有Github同步到Gitee，Gitlab的Action，后面会一起发（这个网上其实很多）。"></a>同时还有Github同步到Gitee，Gitlab的Action，后面会一起发（这个网上其实很多）。</h3><h1 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h1><p>下载 <a target="_blank" rel="noopener" href="https://rclone.org/">Rclone</a> （用来生成 rclone.conf ）</p>
+<p>下载 <a target="_blank" rel="noopener" href="http://www.7-zip.org.cn/">7Zip</a> （用来压缩 rclone.conf 并设置密码 ）</p>
+<p>准备好需要备份的仓库。</p>
+<p>准备一个网盘，教程中使用 <a target="_blank" rel="noopener" href="https://alist-doc.nn.ci/">Alist</a> 挂载阿里云。</p>
+<p>其他网盘可以 <a target="_blank" rel="noopener" href="https://www.bing.com/search?q=rclone%E6%8C%82%E8%BD%BD">百度 Rclone挂载</a> 你想使用的网盘。</p>
+<p>教程视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ER4y1V7wu/">哔哩哔哩_bilibili</a></p>
+<h1 id="开始："><a href="#开始：" class="headerlink" title="开始："></a>开始：</h1><h3 id="首先打开-Rclone-Gui-或-CMD-，新建网盘。"><a href="#首先打开-Rclone-Gui-或-CMD-，新建网盘。" class="headerlink" title="首先打开 Rclone Gui 或 CMD ，新建网盘。"></a>首先打开 Rclone Gui 或 CMD ，新建网盘。</h3><p><img src="https://img.pighog.repl.co/2022/03/image-20220309230601882.png" alt="image-20220309230601882"></p>
+<p>在弹出的CMD中按流程新建，并生成配置文件。生成后打开 rclone.conf</p>
+<p><img src="https://img.pighog.repl.co/2022/03/image-20220309230831786.png" alt="image-20220309230831786"></p>
+<p>打开 rclone.conf 后内容大致为如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[aliyun]</span><br><span class="line">type = webdav #网盘类别</span><br><span class="line">url = #webdav路径</span><br><span class="line">vendor = other #webdav供应商</span><br><span class="line">user = admin #webdav用户</span><br><span class="line">pass = #webdav密码 此密码在CMD中输入密码后自动生成</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[e5]</span><br><span class="line">type = onedrive</span><br><span class="line">client_id = #客户端id</span><br><span class="line">client_secret = #客户端机密</span><br><span class="line">token = &#123;&quot;access_token&quot;:&quot;xxx&quot;,&quot;expiry&quot;:&quot;timexxx&quot;&#125;</span><br><span class="line">drive_id = #自动生成</span><br><span class="line">drive_type = business</span><br></pre></td></tr></table></figure>
+
+<p>rclone挂载各种各样盘可以百度 <a target="_blank" rel="noopener" href="https://www.bing.com/search?q=rclone%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91">rclone挂载阿里云</a> <a target="_blank" rel="noopener" href="https://www.bing.com/search?q=rclone%E6%8C%82%E8%BD%BDonedrive">rclone挂载onedrive</a> 等。以上有任意一个可以挂载的即可。确认可以挂载后，将 rclone.conf 压缩为zip <code>rclone.zip</code> 并设置 <strong>密码</strong> （保护网盘信息）。</p>
+<h3 id="设置Secrets-添加密码"><a href="#设置Secrets-添加密码" class="headerlink" title="设置Secrets 添加密码"></a>设置Secrets 添加密码</h3><p>打开需要备份的仓库，点仓库中的 <strong>Settings</strong> ,并找到 <strong>New repository secret</strong> ← 点击。</p>
+<p><img src="https://img.pighog.repl.co/2022/03/image-20220309232516695.png" alt="image-20220309232516695"></p>
+<p><img src="https://img.pighog.repl.co/2022/03/image-20220309232705904.png" alt="image-20220309232705904"></p>
+<p>在弹出的界面中 <code>Name</code> 项框中填 <code>PASSWD</code> 全大写，<code>Value</code> 项框中填 <code>刚刚设置的压缩包zip密码</code> 填好点 <code>Add secret </code> 按钮。</p>
+<h3 id="上传-rclone-zip-至项目-需要备份的仓库-根目录"><a href="#上传-rclone-zip-至项目-需要备份的仓库-根目录" class="headerlink" title="上传 rclone.zip 至项目(需要备份的仓库)根目录"></a>上传 <code>rclone.zip</code> 至项目(需要备份的仓库)根目录</h3><h3 id="打开你需要备份的仓库，点击-Actions-选项，新建-Workflow"><a href="#打开你需要备份的仓库，点击-Actions-选项，新建-Workflow" class="headerlink" title="打开你需要备份的仓库，点击 Actions 选项，新建 Workflow"></a>打开你需要备份的仓库，点击 <strong>Actions</strong> 选项，新建 <strong>Workflow</strong></h3><p><img src="https://img.pighog.repl.co/2022/03/image-20220309224714579.png" alt="image-20220309224714579"></p>
+<p><img src="https://img.pighog.repl.co/2022/03/image-20220309224810932.png" alt="image-20220309224810932"></p>
+<h3 id="点-set-up-a-workflow-yourself-→"><a href="#点-set-up-a-workflow-yourself-→" class="headerlink" title="点 set up a workflow yourself →"></a>点 <strong>set up a workflow yourself</strong> →</h3><p>将以下代码粘贴至 main.yml （可改名.yml）</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">backup</span> <span class="string">to</span> <span class="string">onedrive</span> <span class="comment">#Action运行标题</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> <span class="comment">#运行条件</span></span><br><span class="line">  <span class="attr">push:</span> <span class="comment">#推送到 master 时运行</span></span><br><span class="line">    <span class="attr">branches:</span> </span><br><span class="line">      <span class="bullet">-</span> <span class="string">master</span>  <span class="comment">#看自己仓库，有些是main</span></span><br><span class="line">  <span class="attr">schedule:</span> <span class="comment">#定时运行</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">cron:</span> <span class="number">0</span> <span class="number">22</span> <span class="number">1</span><span class="string">/2</span> <span class="string">*</span> <span class="string">*</span></span><br><span class="line">  <span class="attr">watch:</span> <span class="comment">#点star时运行</span></span><br><span class="line">    <span class="attr">types:</span> <span class="string">started</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">run-it:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">zip</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">codes</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">rclone</span> <span class="comment">#安装rclone</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">curl</span> <span class="string">https://rclone.org/install.sh</span> <span class="string">|</span> <span class="string">sudo</span> <span class="string">bash</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Unzip</span> <span class="string">config</span> <span class="comment">#解压配置文件</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">         mkdir -p ~/.config/rclone/</span></span><br><span class="line"><span class="string">         unzip -P $&#123;&#123; secrets.PASSWD &#125;&#125; rclone.zip -d ~/.config/rclone/</span></span><br><span class="line"><span class="string"></span>     </span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">rclone</span> <span class="comment">#运行rclone</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          </span></span><br><span class="line"><span class="string">          # 延迟函数 可以删</span></span><br><span class="line"><span class="string">          delay()</span></span><br><span class="line"><span class="string">          &#123;</span></span><br><span class="line"><span class="string">          random_time=$(($RANDOM % $1))</span></span><br><span class="line"><span class="string">          echo &quot;等待 $&#123;random_time&#125; 分钟后开始&quot;</span></span><br><span class="line"><span class="string">          for((i=1;i&lt;=$&#123;random_time&#125;;i++));  </span></span><br><span class="line"><span class="string">          do</span></span><br><span class="line"><span class="string">          echo &quot;倒计时 $[$&#123;random_time&#125;-$i] 分钟&quot;</span></span><br><span class="line"><span class="string">          sleep 1m</span></span><br><span class="line"><span class="string">          done</span></span><br><span class="line"><span class="string">          &#125;</span></span><br><span class="line"><span class="string">          # 随机延迟0~2分钟后再进行操作,可自行设置时间 都能删</span></span><br><span class="line"><span class="string">          delay 2 </span></span><br><span class="line"><span class="string"></span></span><br><span class="line">          <span class="comment"># 更改时区 可以删</span></span><br><span class="line">          <span class="string">sudo</span> <span class="string">cp</span> <span class="string">/usr/share/zoneinfo/Asia/Shanghai</span> <span class="string">/etc/localtime</span></span><br><span class="line">          <span class="string">ls</span> <span class="string">-a</span></span><br><span class="line">          <span class="comment"># 生成时间写入time.log ，将网盘目录写入lsf.log 可以删</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">`date</span> <span class="string">+&quot;%Y-%m-%d</span> <span class="string">%H:%M:%S&quot;`</span> <span class="string">begin</span> <span class="string">&gt;</span> <span class="string">time.log</span> </span><br><span class="line">          <span class="string">echo</span> <span class="string">&quot;列出文件(此处不展示)&quot;</span> <span class="comment">#可以删</span></span><br><span class="line">          <span class="string">rclone</span> <span class="string">lsf</span> <span class="string">e5:/</span> <span class="string">&gt;</span> <span class="string">&quot;lsf.log&quot;</span></span><br><span class="line">          <span class="string">rclone</span> <span class="string">mkdir</span> <span class="string">e5:/github/xxx</span></span><br><span class="line">          <span class="string">rclone</span> <span class="string">sync</span> <span class="string">./</span> <span class="string">e5:/github/xxx</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Zip</span> <span class="string">config</span> <span class="comment">#打包配置文件</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">zip</span> <span class="string">-P</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.PASSWD</span> <span class="string">&#125;&#125;</span> <span class="string">rclone.zip</span> <span class="string">-j</span> <span class="string">~/.config/rclone/rclone.conf</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Commit</span> <span class="string">config</span> <span class="comment">#提交配置文件</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">         git config --global user.email &quot;550029691@qq.com&quot;</span></span><br><span class="line"><span class="string">         git config --global user.name &quot;valetzx&quot;</span></span><br><span class="line"><span class="string">         git add .</span></span><br><span class="line"><span class="string">         git commit -am &quot;GitHub Actions Auto Rclone at $(date +&#x27;%Y-%m-%d %H:%M:%S&#x27;)&quot;</span></span><br><span class="line"><span class="string">         git push --force # --force 是强制推送可以删</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img.pighog.repl.co/2022/03/image-20220309225159141.png" alt="image-20220309225159141"></p>
+<p>此处 e5 是rclone.conf中的[e5]盘名（rclone新建网盘时指定的名字）</p>
+<p><code>rclone mkdir e5:/github/xxx</code> 指在 e5 中新建 github&#x2F;xxx 文件夹</p>
+<p><code>rclone sync ./ e5:/github/xxx</code> 指 同步 .&#x2F; 文件夹至 e5:&#x2F;github&#x2F;xxx</p>
+<p>此处 .&#x2F; 是github根目录，更多命令可以百度，改完之后出问题就暂时不解决了。</p>
+<h2 id="如果需要备份多个仓库，以上几个步骤缺一不可（顺序不重要）"><a href="#如果需要备份多个仓库，以上几个步骤缺一不可（顺序不重要）" class="headerlink" title="如果需要备份多个仓库，以上几个步骤缺一不可（顺序不重要）"></a>如果需要备份多个仓库，以上几个步骤缺一不可（顺序不重要）</h2><p>当然 <code>rclone.zip</code> 可以不用每次都生成，如果你想备份在同一个盘里的话。</p>
+<p><img src="https://img.pighog.repl.co/2022/03/image-20220309233721287.png" alt="image-20220309233721287"></p>
+<p>其实有一个Action就能同步多个仓库的方法，但是不能实时(推送后同步，而且需要用Github服务器下载。有概率封号?这里放一下，建议别用。在更改时区后可以插入更多命令，比如git clone。想试可以自己试。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 更改时区</span><br><span class="line">          sudo cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line">          git clone https://github.com/pigeonpig/pigeonpig.github.io.git #需要备份的仓库</span><br><span class="line">          git clone https://github.com/pigeonpig/xxx #需要备份的仓库</span><br><span class="line">          git clone https://github.com/pigeonpig/xxx #需要备份的仓库</span><br><span class="line">          #最后也是用 sync 同步 但是 吃资源 不太 香，这个方法没试过，不想整。</span><br></pre></td></tr></table></figure>
+
+<h2 id="视频教程直链Alist：202203092151-mp4"><a href="#视频教程直链Alist：202203092151-mp4" class="headerlink" title="视频教程直链Alist：202203092151.mp4 "></a><del>视频教程直链Alist：<a target="_blank" rel="noopener" href="https://flyist.fly.dev/Sharelist/movie!/%E7%8C%AA/202203092151.mp4">202203092151.mp4 </a></del></h2><h2 id="本文章备份地址：Pigpigeon’s-blog"><a href="#本文章备份地址：Pigpigeon’s-blog" class="headerlink" title="本文章备份地址：Pigpigeon’s blog"></a>本文章备份地址：<a target="_blank" rel="noopener" href="https://b1og.learnonly.xyz/article/01VC3T5Y66KR42LGMUYBCZNUEBT7MWKMJL">Pigpigeon’s blog</a></h2>
+        </article>
+        <div class="post-tools" id="post-tools">
+            <div class="post-tools-left">
+                
+                <div class="share-link mobile">
+    <div class="share-qrcode">
+        <div class="share-button" title="使用手机访问这篇文章">
+            <i class="fas fa-qrcode"></i>
+        </div>
+        <div class="share-main">
+            <div class="share-main-all">
+                <div id="qrcode" title="https://valetzx.github.io/p/a7fa.html">
+                </div>
+                <div class="reward-dec">使用手机访问这篇文章</div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            new QRCode(document.getElementById("qrcode"), "https://valetzx.github.io/p/a7fa.html");
+        </script>
+    </div>
+</div>
+                <div class="share-link weibo"><a class="share-button" target="_blank"
+    href="https://service.weibo.com/share/share.php?title=使用GithubAction推送仓库至任意网盘&amp;url=https://valetzx.github.io/p/a7fa.html&amp;pic=https://img.pighog.repl.co/2022/03/psc.jpg"
+    title="分享到微博" rel="noopener external nofollow noreferrer noopener">
+    <i class="fab fa-weibo" style="font-size:22px"></i>
+</a>
+</div>
+<div class="share-link copyurl">
+<div class="share-button" id="post-share-url" title="复制链接" onclick="acrylic.copyPageUrl()">
+    <i class="fas fa-link"></i>
+</div>
+</div>
+            </div>
+            <div class="post-tools-right">
+                <div class="tag_share">
+                    <div class="post-meta__tag-list">
+                        
+                            <a href="/tags/%E6%95%99%E7%A8%8B/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                教程
+                                <span class="tagsPageCount">16</span>
+                            </a>
+                        
+                            <a href="/tags/GithubAction/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                GithubAction
+                                <span class="tagsPageCount">3</span>
+                            </a>
+                        
+                            <a href="/tags/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                自动部署
+                                <span class="tagsPageCount">1</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%99%BD%E5%AB%96/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                白嫖
+                                <span class="tagsPageCount">14</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%BD%91%E7%9B%98/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                网盘
+                                <span class="tagsPageCount">5</span>
+                            </a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="post-copyright">
+    <div class="post-copyright__author">
+        <a class="post-copyright__original" title="该文章为原创文章，注意版权协议">原创</a>
+        <a class="post-copyright-title" href="#">
+            <span>使用GithubAction推送仓库至任意网盘</span>
+        </a>
+    </div>
+    <div class="post-copyright__type">
+        <span class="post-copyright-info" id="post-copyright-url">
+            <a href="/p/a7fa.html">https://valetzx.github.io/p/a7fa.html</a>
+        </span>
+        <button class="post-copyright-copybtn" onclick="acrylic.copyPageUrl()">
+            <i class="fas fa-paste copy-btn"></i>
+        </button>
+    </div>
+    <div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用 <a
+                href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a> 协议，完整转载请注明来自 <a
+                href="/">猪猪博客</a>
+            </span>
+        </div>
+</div>
+        <nav class="pagination-post" id="pagination">
+    
+        <div class="prev-post pull-left">
+            <a href="/p/a8f2.html">
+                <div class="pagination-info">
+                    <div class="label">上一篇</div>
+                    <div class="prev_info">使用Typora写作并配置PicGo图床推荐</div>
+                </div>
+            </a>
+        </div>
+        <div class="next-post pull-right">
+            <a href="/p/dc3a.html">
+                <div class="pagination-info">
+                    <div class="label">下一篇</div>
+                    <div class="next_info">做完毕设后的假期</div>
+                </div>
+            </a>
+        </div>
+    
+</nav>
+            
+    </div>
+    <div class="aside-content" id="aside-content">
+    
+    
+        
+        <div class="card-widget card-info">
+    <div class="card-content">
+        <div class="card-info-avatar is-center">
+            <div class="author-info__sayhi" id="author-info__sayhi">
+            </div>
+            <div class="author-info__name">
+                金桔猪
+            </div>
+            <div class="author-info__description">这有关于<b>开发</b>、<b>室内设计</b>相关的问题和看法，还有对于游戏的一些<b>杂评</b>。<br>相信你可以在这里找到对你有用的知识和教程。</div>
+        </div>
+    </div>
+    <div class="banner-button-group">
+        <a class="banner-button" href="/">
+            <i class="fas fa-circle-chevron-right"></i>
+            <span class="banner-button-text">个人主页</span>
+        </a>
+    </div>
+    <div class="card-info-social-icons is-center">
+        
+            <a class="social-icon" target="_blank" rel="noopener" href="https://github.com/valetzx" title="Github">
+                <i class="fa-brands fa-github"></i>
+            </a>
+        
+            <a class="social-icon" href="mailto:a@nalex.top" title="Mail">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
+        
+    </div>
+</div>
+     
+    
+    <div class="sticky_layout">
+        
+            <div class="card-widget" id="card-toc">
+    <div class="item-headline">
+        <i class="fas fa-bars"></i>
+        <span>文章目录</span>
+    </div>
+    <div class="toc-content" id="toc-content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A"><span class="toc-text">前言：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Github%E7%AB%99%E9%98%9F%EF%BC%8C%E8%99%BD%E7%84%B6%E4%B8%8D%E5%BD%B1%E5%93%8D%E6%88%91%E4%BB%AC%E4%BD%BF%E7%94%A8%EF%BC%8C%E4%BD%86%E6%98%AF%E8%BF%99%E9%87%8C%E5%8F%91%E4%B8%80%E4%B8%AA%E5%A4%87%E4%BB%BD%E6%96%B9%E6%B3%95%EF%BC%8C%E5%B8%8C%E6%9C%9B%E5%B8%AE%E5%8A%A9%E5%88%B0%E6%9C%89%E8%BF%99%E6%A0%B7%E6%83%B3%E6%B3%95%E7%9A%84%E5%A4%A7%E5%AE%B6%E3%80%82"><span class="toc-text">Github站队，虽然不影响我们使用，但是这里发一个备份方法，希望帮助到有这样想法的大家。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%97%B6%E8%BF%98%E6%9C%89Github%E5%90%8C%E6%AD%A5%E5%88%B0Gitee%EF%BC%8CGitlab%E7%9A%84Action%EF%BC%8C%E5%90%8E%E9%9D%A2%E4%BC%9A%E4%B8%80%E8%B5%B7%E5%8F%91%EF%BC%88%E8%BF%99%E4%B8%AA%E7%BD%91%E4%B8%8A%E5%85%B6%E5%AE%9E%E5%BE%88%E5%A4%9A%EF%BC%89%E3%80%82"><span class="toc-text">同时还有Github同步到Gitee，Gitlab的Action，后面会一起发（这个网上其实很多）。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%86%E5%A4%87%EF%BC%9A"><span class="toc-text">准备：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%EF%BC%9A"><span class="toc-text">开始：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E6%89%93%E5%BC%80-Rclone-Gui-%E6%88%96-CMD-%EF%BC%8C%E6%96%B0%E5%BB%BA%E7%BD%91%E7%9B%98%E3%80%82"><span class="toc-text">首先打开 Rclone Gui 或 CMD ，新建网盘。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AESecrets-%E6%B7%BB%E5%8A%A0%E5%AF%86%E7%A0%81"><span class="toc-text">设置Secrets 添加密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0-rclone-zip-%E8%87%B3%E9%A1%B9%E7%9B%AE-%E9%9C%80%E8%A6%81%E5%A4%87%E4%BB%BD%E7%9A%84%E4%BB%93%E5%BA%93-%E6%A0%B9%E7%9B%AE%E5%BD%95"><span class="toc-text">上传 rclone.zip 至项目(需要备份的仓库)根目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%BC%80%E4%BD%A0%E9%9C%80%E8%A6%81%E5%A4%87%E4%BB%BD%E7%9A%84%E4%BB%93%E5%BA%93%EF%BC%8C%E7%82%B9%E5%87%BB-Actions-%E9%80%89%E9%A1%B9%EF%BC%8C%E6%96%B0%E5%BB%BA-Workflow"><span class="toc-text">打开你需要备份的仓库，点击 Actions 选项，新建 Workflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%82%B9-set-up-a-workflow-yourself-%E2%86%92"><span class="toc-text">点 set up a workflow yourself →</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E9%9C%80%E8%A6%81%E5%A4%87%E4%BB%BD%E5%A4%9A%E4%B8%AA%E4%BB%93%E5%BA%93%EF%BC%8C%E4%BB%A5%E4%B8%8A%E5%87%A0%E4%B8%AA%E6%AD%A5%E9%AA%A4%E7%BC%BA%E4%B8%80%E4%B8%8D%E5%8F%AF%EF%BC%88%E9%A1%BA%E5%BA%8F%E4%B8%8D%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">如果需要备份多个仓库，以上几个步骤缺一不可（顺序不重要）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B%E7%9B%B4%E9%93%BEAlist%EF%BC%9A202203092151-mp4"><span class="toc-text">视频教程直链Alist：202203092151.mp4 </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E6%96%87%E7%AB%A0%E5%A4%87%E4%BB%BD%E5%9C%B0%E5%9D%80%EF%BC%9APigpigeon%E2%80%99s-blog"><span class="toc-text">本文章备份地址：Pigpigeon’s blog</span></a></li></ol></li></ol>
+    </div>
+</div>
+            
+        
+            
+        <div class="card-widget card-recent-post">
+    <div class="item-headline">
+        <i class="fas fa-list-ol"></i>
+        <span>最近发布</span>
+    </div>
+    <div class="aside-list">
+        
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/p/6b1c.html" title="将Hexo-Butterfly主题更换至Acrylic-Next">
+                    <img
+                        alt="将Hexo-Butterfly主题更换至Acrylic-Next"
+                        src="https://bing.icodeq.com/?230611">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/p/6b1c.html" title="将Hexo-Butterfly主题更换至Acrylic-Next">
+                        将Hexo-Butterfly主题更换至Acrylic-Next
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/p/13d3.html" title="在Docker中使用Rclone作为储存卷">
+                    <img
+                        alt="在Docker中使用Rclone作为储存卷"
+                        src="https://bing.icodeq.com/?17">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/p/13d3.html" title="在Docker中使用Rclone作为储存卷">
+                        在Docker中使用Rclone作为储存卷
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/p/7e53.html" title="在Replit部署每日新闻项目">
+                    <img
+                        alt="在Replit部署每日新闻项目"
+                        src="https://bing.icodeq.com/?16">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/p/7e53.html" title="在Replit部署每日新闻项目">
+                        在Replit部署每日新闻项目
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/p/f0c0.html" title="信息泄露分析以及日常">
+                    <img
+                        alt="信息泄露分析以及日常"
+                        src="https://bing.icodeq.com/?14">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/p/f0c0.html" title="信息泄露分析以及日常">
+                        信息泄露分析以及日常
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/p/98.html" title="白嫖Github学生包！">
+                    <img
+                        alt="白嫖Github学生包！"
+                        src="https://bing.icodeq.com/?13">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/p/98.html" title="白嫖Github学生包！">
+                        白嫖Github学生包！
+                    </a>
+                </div>
+            </div>
+            
+    </div>
+</div>
+     
+        
+    </div>
+</div> 
+</main>
+                <footer id="footer">
+                    <div id="footer_deal">
+    
+    <img class="footer_mini_logo" src="/img/avatar.webp"
+        title="返回顶部" onclick="acrylic.toTop()">
+    
+</div>    
+<div id="heo-footer">
+    
+    
+</div>
+<div id="footer-section">
+    <div class="footer-section-links">
+        <div class="footer-section-left">
+            <div id="footer-section-tips">
+                <div class="copyright">©2021 - 2023 By 
+                    <a class="footer-section-link" href="/" rel="external nofollow">金桔猪</a>
+                    <a class="footer-section-link" href="https://github.com/hexo-theme-Acrylic/Hexo-Theme-Acrylic-Next" rel="external nofollow" target="_blank"> Theme By Acrylic-Next</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-section-right">
+            <a class="footer-section-link" href="/rss/">订阅</a>
+            
+            <a class="footer-section-link cc" target="_blank" href="https://creativecommons.org/licenses/by/4.0/" title="cc协议">
+                <i class="fa-solid fa-closed-captioning"></i>
+            </a>
+        </div>
+    </div>
+</div>
+                </footer>
+            </div>
+         
+        <div>
+    <script type="text/javascript" src="/js/utils.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    
+
+<script src="/lib/pjax.min.js"></script>
+
+
+
+<script src="/lib/snackbar.min.js"></script>
+
+
+    
+<script src="/lib/view-image.min.js"></script>
+
+
+
+<div id="js-pjax">
+    
+     
+</div>
+
+    
+<link rel="stylesheet" href="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css">
+
+    
+<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script>
+
+    
+<script src="https://cdn1.tianli0.top/npm/meting@2.0.1/dist/Meting.min.js"></script>
+
+    <script>
+        var meting_api = "https://music.startly.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r";
+    </script>
+
+
+    
+<script src="/js/extend/covercolor/local.js"></script>
+
+        
+
+
+    <script>
+  let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax'
+  ]
+  
+  const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+  })
+
+  document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+</script>
+    
+</div>
+        
+     
+        <div class="needEndHide" id="nav-music" onclick="acrylic.musicToggle()">
+    <div id="nav-music-hoverTips">音乐已暂停</div>
+    <meting-js id="8111304138" server="tencent" type="playlist" mutex="true"
+        preload="none" data-lrctype="0" order="random" theme="var(--heo-main)"></meting-js>
+</div>
+    
+    </body>
+</html>
+<script>const posts=["p/6b1c.html","p/13d3.html","p/7e53.html","p/f0c0.html","p/98.html","p/3412.html","p/15af.html","p/b147.html","p/799e.html","p/34c.html","p/c99d.html","p/1849.html","p/cb20.html","p/aa4a.html","p/a4f.html","p/439d.html","p/a8f2.html","p/a7fa.html","p/dc3a.html","p/a95e.html","p/a5af.html","p/13bd.html"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

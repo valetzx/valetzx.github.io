@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>在Docker中使用Rclone作为储存卷 | 猪猪博客</title>
+<noscript>开启Javascript是必要的</noscript>
+<link rel="icon" type="image/x-icon" href="/img/avatar.webp">
+<link rel="apple-touch-icon" href="/img/avatar.webp">
+<meta name="apple-mobile-web-app-title" content="猪猪博客">
+<link rel="bookmark" href="/img/avatar.webp">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="/img/avatar.webp">
+<meta name="description" content="">
+<meta name="theme-color" content="#1C1C1F">
+<link rel="stylesheet" href="/css/var.css">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    
+
+<link rel="stylesheet" href="/lib/snackbar.min.css">
+
+
+<script src="/lib/qrcode.min.js"></script>
+
+
+
+
+
+<script>var GLOBALCONFIG = {"root":"/","runtime":"2021-12-12 00:00:00","lazyload":{"enable":false,"error":"/img/acrylic.png"},"hightlight":{"enable":true,"limit":200},"lightbox":true,"randomlinks":false,"lang":{"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"recent":"最近","yesterday":"昨天","berforeyesterday":"前天","daybefore":"天前","runtime":"天"},"sayhello":{"morning":"早上好","noon":"中午好","afternoon":"下午好","night":"晚上好","goodnight":"晚安","iam":"!  我是"},"search":{"empty":"搜索结果为空","hit":"已为您找到 ${query} 条结果","placeholder":"输入关键词快速查找"}},"covercolor":true,"comment":{"enable":false,"twikooUrl":null}};</script><script id="site-config">var PAGECONFIG = {"is_home":false,"is_post":true,"is_page":false,"page":false,"toc":true,"comment":false};</script>
+    <meta name="generator" content="Hexo 6.3.0"></head>
+    <body id="body">
+        
+        <div id="console" style="zoom: 1;" class="">
+    <div class="close-btn" onclick="acrylic.hideConsole()" href="javascript:void(0);">
+        <i class="fas fa-circle-xmark"></i>
+    </div>
+    
+        <div class="console-card-group">
+            <div class="console-card-group-left">
+                <div class="console-card" id="card-newest-comments" onclick="acrylic.hideConsole()">
+                    <div class="card-content">
+                        <div class="author-content-item-tips">互动</div>
+                        <div class="author-content-item-title">最新评论</div>
+                    </div>
+                    <div class="aside-list"></div>
+                </div>
+    
+            </div>
+            <div class="console-card-group-right">
+                <div class="console-card tags" onclick="acrylic.hideConsole()">
+                    <div class="card-content">
+                        <div class="author-content-item-tips">标签</div>
+                        <div class="author-content-item-title">寻找感兴趣的领域</div>
+                    </div>
+                    <div class="card-tag-cloud">
+                        
+                            <a href="/tags/%E6%AF%95%E8%AE%BE/" style="font-size: 0.8rem; color: #d3d3d3">毕设<sup>1</sup></a>
+                        
+                            <a href="/tags/%E4%BD%9C%E4%B8%9A/" style="font-size: 0.8rem; color: #d3d3d3">作业<sup>2</sup></a>
+                        
+                            <a href="/tags/%E8%AE%BE%E8%AE%A1/" style="font-size: 0.8rem; color: #d3d3d3">设计<sup>2</sup></a>
+                        
+                            <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 0.8rem; color: #d3d3d3">日常<sup>5</sup></a>
+                        
+                            <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 0.8rem; color: #d3d3d3">记录<sup>2</sup></a>
+                        
+                            <a href="/tags/%E6%B5%81%E6%B0%B4%E8%B4%A6/" style="font-size: 0.8rem; color: #d3d3d3">流水账<sup>1</sup></a>
+                        
+                            <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 0.8rem; color: #d3d3d3">教程<sup>16</sup></a>
+                        
+                            <a href="/tags/GithubAction/" style="font-size: 0.8rem; color: #d3d3d3">GithubAction<sup>3</sup></a>
+                        
+                            <a href="/tags/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/" style="font-size: 0.8rem; color: #d3d3d3">自动部署<sup>1</sup></a>
+                        
+                            <a href="/tags/%E7%99%BD%E5%AB%96/" style="font-size: 0.8rem; color: #d3d3d3">白嫖<sup>14</sup></a>
+                        
+                            <a href="/tags/%E7%BD%91%E7%9B%98/" style="font-size: 0.8rem; color: #d3d3d3">网盘<sup>5</sup></a>
+                        
+                            <a href="/tags/%E5%9B%BE%E5%BA%8A/" style="font-size: 0.8rem; color: #d3d3d3">图床<sup>1</sup></a>
+                        
+                            <a href="/tags/OneDrive/" style="font-size: 0.8rem; color: #d3d3d3">OneDrive<sup>5</sup></a>
+                        
+                            <a href="/tags/ZeroTier/" style="font-size: 0.8rem; color: #d3d3d3">ZeroTier<sup>1</sup></a>
+                        
+                            <a href="/tags/Alist/" style="font-size: 0.8rem; color: #d3d3d3">Alist<sup>1</sup></a>
+                        
+                            <a href="/tags/SSH/" style="font-size: 0.8rem; color: #d3d3d3">SSH<sup>1</sup></a>
+                        
+                            <a href="/tags/Replit/" style="font-size: 0.8rem; color: #d3d3d3">Replit<sup>5</sup></a>
+                        
+                            <a href="/tags/%E7%9F%A5%E4%B9%8E/" style="font-size: 0.8rem; color: #d3d3d3">知乎<sup>1</sup></a>
+                        
+                            <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 0.8rem; color: #d3d3d3">转载<sup>1</sup></a>
+                        
+                            <a href="/tags/Docker/" style="font-size: 0.8rem; color: #d3d3d3">Docker<sup>2</sup></a>
+                        
+                            <a href="/tags/Github/" style="font-size: 0.8rem; color: #d3d3d3">Github<sup>1</sup></a>
+                        
+                            <a href="/tags/Azure/" style="font-size: 0.8rem; color: #d3d3d3">Azure<sup>1</sup></a>
+                        
+                    </div>
+                </div>
+                <div class="console-card history" onclick="acrylic.hideConsole()">
+                    <ul class="card-archive-list">
+    
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2023-06/')" data-pjax-state=""><span
+            class="card-archive-list-date">2023-06</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-08/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-08</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-07/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-07</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-06/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-06</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-05/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-05</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-04/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-04</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">6</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-03/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-03</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+     
+        <li class="card-archive-list-item"><a class="card-archive-list-link" onclick="pjax.loadUrl('/archives/2022-02/')" data-pjax-state=""><span
+            class="card-archive-list-date">2022-02</span>
+            <div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span
+                    class="card-archive-list-count-unit">篇</span></div>
+            </a>
+        </li>
+        
+</ul>
+
+                </div>
+            </div>
+        </div>
+    
+    
+    <div class="button-group">
+        <div class="console-btn-item"> <a class="darkmode_switchbutton" onclick="acrylic.switchDarkMode()" title="显示模式切换"
+                href="javascript:void(0);" rel="external nofollow" data-pjax-state=""><i class="fas fa-moon"
+                    style="font-size: 1rem;"></i></a></div>
+                    
+            <div class="console-btn-item" id="consoleMusic" onclick="acrylic.musicToggle()" title="音乐开关"><a class="music-switch"><i class="fas fa-music"></i></a></div>
+        
+    </div>
+    <div class="console-mask" onclick="acrylic.hideConsole()" href="javascript:void(0);" rel="external nofollow"></div>
+</div>
+        <div id="sidebar" style="zoom: 1;">
+    <div id="menu-mask" style="display: none;"></div>
+    <div id="sidebar-menus" class>
+        <span class="sidebar-menu-item-title">功能</span>
+        <div class="sidebar-menu-item">
+            <a class="darkmode_switchbutton menu-child" onclick="acrylic.switchDarkMode()" title="显示模式切换"
+                href="javascript:void(0);" rel="external nofollow">
+                <i class="fas fa-moon" style="font-size: 1rem;"></i>
+                <span>显示模式</span>
+            </a>
+        </div>
+        
+            <div class="back-menu-list-groups">
+    
+  </div>
+  
+        
+        <div class="menus_items">
+    
+</div>
+        <span class="sidebar-menu-item-title">标签</span>
+        <div class="card-widget card-tags card-archives card-webinfo card-allinfo">
+            <div class="item-headline">
+                <i class="fas fa-tags"></i>
+                <span>标签</span>
+            </div>
+            <div class="card-tag-cloud">
+                
+                    <a href="/tags/%E6%AF%95%E8%AE%BE/" style="font-size: 1em; color: #d3d3d3">毕设
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E4%BD%9C%E4%B8%9A/" style="font-size: 1em; color: #d3d3d3">作业
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%AE%BE%E8%AE%A1/" style="font-size: 1em; color: #d3d3d3">设计
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/%E6%97%A5%E5%B8%B8/" style="font-size: 1em; color: #d3d3d3">日常
+                        <sup>5</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%AE%B0%E5%BD%95/" style="font-size: 1em; color: #d3d3d3">记录
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/%E6%B5%81%E6%B0%B4%E8%B4%A6/" style="font-size: 1em; color: #d3d3d3">流水账
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 1em; color: #d3d3d3">教程
+                        <sup>16</sup>
+                    </a>
+                
+                    <a href="/tags/GithubAction/" style="font-size: 1em; color: #d3d3d3">GithubAction
+                        <sup>3</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/" style="font-size: 1em; color: #d3d3d3">自动部署
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E7%99%BD%E5%AB%96/" style="font-size: 1em; color: #d3d3d3">白嫖
+                        <sup>14</sup>
+                    </a>
+                
+                    <a href="/tags/%E7%BD%91%E7%9B%98/" style="font-size: 1em; color: #d3d3d3">网盘
+                        <sup>5</sup>
+                    </a>
+                
+                    <a href="/tags/%E5%9B%BE%E5%BA%8A/" style="font-size: 1em; color: #d3d3d3">图床
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/OneDrive/" style="font-size: 1em; color: #d3d3d3">OneDrive
+                        <sup>5</sup>
+                    </a>
+                
+                    <a href="/tags/ZeroTier/" style="font-size: 1em; color: #d3d3d3">ZeroTier
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Alist/" style="font-size: 1em; color: #d3d3d3">Alist
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/SSH/" style="font-size: 1em; color: #d3d3d3">SSH
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Replit/" style="font-size: 1em; color: #d3d3d3">Replit
+                        <sup>5</sup>
+                    </a>
+                
+                    <a href="/tags/%E7%9F%A5%E4%B9%8E/" style="font-size: 1em; color: #d3d3d3">知乎
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 1em; color: #d3d3d3">转载
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Docker/" style="font-size: 1em; color: #d3d3d3">Docker
+                        <sup>2</sup>
+                    </a>
+                
+                    <a href="/tags/Github/" style="font-size: 1em; color: #d3d3d3">Github
+                        <sup>1</sup>
+                    </a>
+                
+                    <a href="/tags/Azure/" style="font-size: 1em; color: #d3d3d3">Azure
+                        <sup>1</sup>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</div>    
+        
+            <div class="post" id="body-wrap">
+                <header class="post-bg" id="page-header">
+    <nav id="nav" class="show">
+    <div id="nav-group">
+        <div id="blog_name">
+            
+                <div class="back-home-button" tabindex="-1">
+                    <i class="back-home-button-icon fas fa-grip-vertical"></i>
+                    <div class="back-menu-list-groups">
+    
+  </div>
+  
+                </div>
+            
+            <a id="site-name" href="/" title="返回博客主页">
+                    
+                        <span class="heoicon">Home</span>
+                    
+            </a>
+        </div>
+        <div id="page-name-mask">
+            <div id="page-name">
+                <a id="page-name-text" onclick="acrylic.toTop()">在Docker中使用Rclone作为储存卷</a>
+            </div>
+        </div>
+        <div id="menus">
+            <div class="menus_items">
+    
+</div>
+        </div>
+        <!-- <div id="nav-left">
+            <div id="fps-group">
+                <div id="fps">145</div><span class="fpsText">FPS</span>
+            </div>
+        </div> -->
+        <div id="nav-right">
+            
+    <div class="nav-button only-home" id="travellings_button">
+        <a class="site-page"  target="_blank" rel="noopener external nofollow" href="https://www.travellings.cn/go.html" title="开往-友链接力"  width="120">
+            <i class="fa-solid fa-train-subway" style="font-size: 1rem;"></i>
+        </a>
+    </div>
+
+
+    <div class="nav-button" id="randomPost_button">
+        <a class="site-page" onclick="toRandomPost()"
+            title="随机前往一个文章">
+            <i class="fas fa-shuffle" style="font-size: 1rem;"></i>
+        </a>
+    </div>
+
+
+
+    <div class="nav-button" id="nav-console">
+        <a class="console_switchbutton" onclick="acrylic.showConsole()"
+        title="显示中控台" href="javascript:void(0);" rel="external nofollow">
+        <i class="fas fa-bars-progress" style="font-size: 1rem;"></i>
+        </a>
+    </div>
+
+<div class="nav-button" id="nav-totop" onclick="acrylic.toTop()">
+    <a class="totopbtn">
+        <i class="fas fa-arrow-up"></i>
+        <span id="percent">0</span>
+    </a>
+</div>
+<div id="toggle-menu">
+    <a class="site-page">
+        <i class="fas fa-bars fa-fw" style="font-size: 1rem;"></i>
+    </a>
+</div>
+        </div>
+    </div>
+</nav>
+    
+        <div class="coverdiv" id="coverdiv">
+    <img id="post-cover" class="nolazyload" src="https://bing.icodeq.com/?17" alt="cover">
+</div>
+<div id="post-info">
+    <div id="post-firstinfo">
+        <div class="meta-firstline">
+            <a class="post-meta-original" title="该文章为原创文章，注意版权协议">
+                原创
+            </a>
+            
+            <div class="tag_share">
+                <div class="post-meta__tag-list">
+                    
+                        <a class="post-meta__tags" href="/tags/%E6%95%99%E7%A8%8B/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">教程</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/%E7%99%BD%E5%AB%96/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">白嫖</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/%E7%BD%91%E7%9B%98/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">网盘</span>
+                        </a>
+                    
+                        <a class="post-meta__tags" href="/tags/Docker/">
+                            <span class="tags-punctuation">#</span>
+                            <span class="tags-name">Docker</span>
+                        </a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 class="post-title">在Docker中使用Rclone作为储存卷</h1>
+    <div id="post-meta">
+        <div class="meta-secondline">
+            <span class="post-meta-date" title="发布于">
+                <i class="post-meta-icon fa-fw fas fa-calendar"></i>
+                <time datetime="2022-08-12T13:02:24+00:00"></time>
+            </span>
+            
+            
+                <span class="post-meta-position" title="作者IP归属地为江苏">
+                    <i class="fas fa-location-dot post-meta-icon"></i>
+                    <span>江苏</span>
+                </span>
+            
+            
+            
+                
+        </div>
+    </div>
+</div>
+<section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg"
+    xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+    <defs>
+        <path id="gentle-wave"
+            d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path>
+    </defs>
+    <g class="parallax">
+        <use href="#gentle-wave" x="48" y="0"></use>
+        <use href="#gentle-wave" x="48" y="3"></use>
+        <use href="#gentle-wave" x="48" y="5"></use>
+        <use href="#gentle-wave" x="48" y="7"></use>
+    </g>
+</svg>
+</section>
+
+        
+</header>
+                <main class="layout" id="content-inner">
+    <div id="post">
+        <article class="post-content" id="article-container">
+            <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>在各个平台，或本地使用 <code>Docker</code> 时，一定会遇到一些容器，想让它们的储存同步到云端，方便以后新建容器时好继承上一个容器的储存。本文会教大家如何安装 <code>rclone</code> 作为 <code>docker</code> 插件，以方便使用各个云平台作为容器储存卷。*本文提到的<code>插件</code>若未明确表达均指代 <code>rclone docker plugin</code>。部分内容来自 <a target="_blank" rel="noopener" href="https://rclone.org/docker/">https://rclone.org/docker/</a> </p>
+<h1 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h1><p>你需要准备一个有 <code>Docker API Version 1.12</code> 以上的环境，推荐 <code>1.40+</code> 可以使用 <code>docker version</code> 查看你当前安装的 Docker 版本。并安装 <code>docker-comps</code> (可选)：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Client:</span><br><span class="line"> Version:           20.10.17+azure-1</span><br><span class="line"> API version:       1.41</span><br><span class="line"> Go version:        go1.17.11</span><br><span class="line"> Git commit:        </span><br><span class="line"> Built:             Mon Jun  6 21:36:39 UTC 2022</span><br><span class="line"> OS/Arch:           linux/amd64</span><br><span class="line"> Context:           default</span><br><span class="line"> Experimental:      true</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:          20.10.17+azure-1</span><br><span class="line">  API version:      1.41 (minimum version 1.12)</span><br><span class="line">  Go version:       go1.17.11</span><br><span class="line">  Git commit:       </span><br><span class="line">  Built:            Mon Jun  6 22:32:38 2022</span><br><span class="line">  OS/Arch:          linux/amd64</span><br><span class="line">  Experimental:     false</span><br></pre></td></tr></table></figure>
+
+<h1 id="开始："><a href="#开始：" class="headerlink" title="开始："></a>开始：</h1><h3 id="安装流程："><a href="#安装流程：" class="headerlink" title="安装流程："></a>安装流程：</h3><ol>
+<li>首先你需要在你的 主机(VPS等) 安装 <code>FUSE</code> 模块，这是必要的！</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get -y install fuse</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建两个 <code>rclone docker plugin</code> 的数据缓存文件夹（默认）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /var/lib/docker-plugins/rclone/config</span><br><span class="line">sudo <span class="built_in">mkdir</span> -p /var/lib/docker-plugins/rclone/cache</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>为你的docker安装插件</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker plugin install rclone/docker-volume-rclone:amd64 args=<span class="string">&quot;-v&quot;</span> --<span class="built_in">alias</span> rclone --grant-all-permissions</span><br><span class="line">docker plugin list <span class="comment">#查看插件列表 出现NAME=rclone:latest;ENABLED=true 说明安装并启用成功了</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>你可以根据需求，更换 <code>rclone.conf</code> 及 <code>cache</code> 文件夹</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker plugin <span class="built_in">disable</span> rclone <span class="comment">#禁用rclone插件</span></span><br><span class="line">docker plugin <span class="built_in">set</span> rclone RCLONE_VERBOSE=2 config=/root/.config/rclone cache=/tmp/rclone args=<span class="string">&quot;--vfs-cache-mode=writes --allow-other&quot;</span> <span class="comment">#配置文件夹及缓存文件夹</span></span><br><span class="line">docker plugin <span class="built_in">enable</span> rclone <span class="comment">#启用rclone插件</span></span><br><span class="line">docker plugin inspect rclone <span class="comment">#查看插件配置</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="挂载流程："><a href="#挂载流程：" class="headerlink" title="挂载流程："></a>挂载流程：</h3><h4 id="SFTP-卷挂载示例"><a href="#SFTP-卷挂载示例" class="headerlink" title="SFTP 卷挂载示例"></a>SFTP 卷挂载示例</h4><ol>
+<li>创建 <code>sftpvolume</code> 卷（ sftpvolume为储存卷名 ）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume create sftpvolume -d rclone -o <span class="built_in">type</span>=sftp -o sftp-host=_hostname_ -o sftp-user=_username_ -o sftp-pass=_password_ -o allow-other=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>创建使用 <code>sftpvolume</code> 卷的容器</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run --<span class="built_in">rm</span> -it -v sftpvolume:/mnt --workdir /mnt ubuntu:latest bash</span><br><span class="line"><span class="comment"># sftpvolume:/mnt 指的是：你SFTP中 /mnt 目录（和原版rclone是一样）</span></span><br><span class="line"><span class="comment"># --workdir /mnt 指的的：容器内部目录 /mnt</span></span><br></pre></td></tr></table></figure>
+
+<p>如果一切配置正确的话，你会进入到这个新的容器。你可以输入<code>ls</code>命令查看 &#x2F;mnt 内容</p>
+<h4 id="任意网络盘挂载示例"><a href="#任意网络盘挂载示例" class="headerlink" title="任意网络盘挂载示例"></a>任意网络盘挂载示例</h4><p>*<a target="_blank" rel="noopener" href="https://rclone.org/docker/">Rclone官方示例</a> 为 Google Drive 我们这里用 Onedrive 做演示</p>
+<ol start="0">
+<li><p>在另外任意一台机器，创建你想挂载的网盘，比如 Onedrive，将生成的 <code>rclone.conf</code> 配置文件 移动到你 主机(VPS等) 的 <code>/var/lib/docker-plugins/rclone/config/rclone.conf</code> 目录（默认：如果没有走安装流程的第四步，就是一开始 <code>mkdir</code> 的文件夹）  <a target="_blank" rel="noopener" href="https://rclone.org/docs/">附录：创建网盘教程</a> 配置文件看起来应该是下面这样（onedrive）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[oodrive]</span><br><span class="line">type = onedrive</span><br><span class="line">client_id = 180xxxx2-0114-xxxxaf31-24aaxxxxx0cb</span><br><span class="line">client_secret = Xik7Q~JxxxxxoaO8aKxxxxxvclxlxxxxx8</span><br><span class="line">token = &#123;&quot;access_token&quot;:&quot;xxx&quot;,&quot;expiry&quot;:&quot;2022-05-04T07:30:31.869533611+08:00&quot;&#125;</span><br><span class="line">drive_id = b!xxxxxxxx-SdYUkcM9xT9TKp</span><br><span class="line">drive_type = business</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建一个文件名为 <code>example.yml</code> 的 docker swarm stack：</p>
+</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">heimdall:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">linuxserver/heimdall:latest</span></span><br><span class="line">    <span class="attr">ports:</span> [<span class="number">8080</span><span class="string">:80</span>]</span><br><span class="line">    <span class="attr">volumes:</span> [<span class="string">configdata:/config</span>]</span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">configdata:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">rclone</span></span><br><span class="line">    <span class="attr">driver_opts:</span></span><br><span class="line">      <span class="attr">remote:</span> <span class="string">&#x27;oodrive:heimdall&#x27;</span></span><br><span class="line">      <span class="attr">allow_other:</span> <span class="string">&#x27;true&#x27;</span></span><br><span class="line">      <span class="attr">vfs_cache_mode:</span> <span class="string">full</span></span><br><span class="line">      <span class="attr">poll_interval:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>运行这个stack</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stack deploy example -c ./example.yml</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>在一段时间后，会创建 <code>example_heimdall</code> 服务并在8080端口启动，你可以使用以下指令查看</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker service ls</span><br><span class="line">docker service ps example_heimdall</span><br><span class="line">docker volume ls</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>在测试结束后你可以使用 <code>docker stack remove example</code> 移除服务，使用 <code>docker volume remove example_configdata</code> 移除储存卷。</li>
+</ol>
+<h4 id="使用CLI创建卷"><a href="#使用CLI创建卷" class="headerlink" title="使用CLI创建卷"></a>使用CLI创建卷</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker volume create vol1 -d rclone -o remote=storj: -o vfs-cache-mode=full</span><br><span class="line">docker volume create vol2 -d rclone -o remote=:storj,access_grant=xxx:heimdall</span><br><span class="line">docker volume create vol3 -d rclone -o type=storj -o path=heimdall -o storj-access-grant=xxx -o poll-interval=0</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用Docker-Swarm-或Docker-Compose"><a href="#使用Docker-Swarm-或Docker-Compose" class="headerlink" title="使用Docker Swarm 或Docker Compose"></a>使用Docker Swarm 或Docker Compose</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">volume_name_1:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">rclone</span></span><br><span class="line">    <span class="attr">driver_opts:</span></span><br><span class="line">      <span class="attr">remote:</span> <span class="string">&#x27;oodrive:&#x27;</span></span><br><span class="line">      <span class="attr">allow_other:</span> <span class="string">&#x27;true&#x27;</span></span><br><span class="line">      <span class="attr">vfs_cache_mode:</span> <span class="string">writes</span></span><br><span class="line">      <span class="attr">token:</span> <span class="string">&#x27;&#123;&quot;type&quot;: &quot;borrower&quot;, &quot;expires&quot;: &quot;2021-12-31&quot;&#125;&#x27;</span></span><br><span class="line">      <span class="attr">poll_interval:</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="实战总结："><a href="#实战总结：" class="headerlink" title="实战总结："></a>实战总结：</h3><p>以下为使用 compos 部署 alist 并挂载云端的配置，注意 <code>oodrive</code> 为你的 <code>rclone</code> 配置文件中的网盘名字，请读完全文再抄袭！</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"> <span class="attr">alistr:</span>                            <span class="comment">#服务名 alistr 任意</span></span><br><span class="line">   <span class="attr">image:</span> <span class="string">xhofe/alist:latest</span>        <span class="comment">#容器镜像 xhofe/alist</span></span><br><span class="line">   <span class="attr">ports:</span> [<span class="number">5244</span><span class="string">:5244</span>]               <span class="comment">#容器端口 5244</span></span><br><span class="line">   <span class="attr">network_mode:</span> <span class="string">host</span>               <span class="comment">#网络模式 host</span></span><br><span class="line">   <span class="attr">volumes:</span> [<span class="string">adata:/opt/alist/data</span>] <span class="comment">#卷名 adata 挂载至容器内/ opt/alist/data</span></span><br><span class="line"><span class="attr">volumes:</span>                            <span class="comment">#储存卷配置：</span></span><br><span class="line"> <span class="attr">adata:</span>                             <span class="comment">#定义上面的卷名 adata</span></span><br><span class="line">   <span class="attr">driver:</span> <span class="string">rclone</span>                   <span class="comment">#磁盘名 rclone</span></span><br><span class="line">   <span class="attr">driver_opts:</span>                     <span class="comment">#磁盘配置</span></span><br><span class="line">     <span class="attr">remote:</span> <span class="string">oodrive:/example/alist</span> <span class="comment">#同步 oodrive 下 /example/alist 文件</span></span><br><span class="line">     <span class="attr">allow_other:</span> <span class="string">&#x27;true&#x27;</span>            <span class="comment">#类似rclone mount配置</span></span><br><span class="line">     <span class="attr">vfs_cache_mode:</span> <span class="string">writes</span>         <span class="comment">#类似rclone mount配置</span></span><br><span class="line">     <span class="attr">poll_interval:</span> <span class="number">0</span>               <span class="comment">#类似rclone mount配置</span></span><br></pre></td></tr></table></figure>
+
+<p>如果出现 <code>Unsupported config option for services.volumes: &#39;XXXX&#39;</code> 一般为 <code>rclone.conf</code> 未配置正确，请检查路径及网盘token密码等。</p>
+<h1 id="结语："><a href="#结语：" class="headerlink" title="结语："></a>结语：</h1><p>当然，你可以在每次机器启动后 手动&#x2F;使用守护进程 挂载onedrive或其他rclone配置，再重启docker。但是使用插件可以大大增加效率，配置一次就能永久爽快体验。</p>
+
+        </article>
+        <div class="post-tools" id="post-tools">
+            <div class="post-tools-left">
+                
+                <div class="share-link mobile">
+    <div class="share-qrcode">
+        <div class="share-button" title="使用手机访问这篇文章">
+            <i class="fas fa-qrcode"></i>
+        </div>
+        <div class="share-main">
+            <div class="share-main-all">
+                <div id="qrcode" title="https://valetzx.github.io/p/13d3.html">
+                </div>
+                <div class="reward-dec">使用手机访问这篇文章</div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            new QRCode(document.getElementById("qrcode"), "https://valetzx.github.io/p/13d3.html");
+        </script>
+    </div>
+</div>
+                <div class="share-link weibo"><a class="share-button" target="_blank"
+    href="https://service.weibo.com/share/share.php?title=在Docker中使用Rclone作为储存卷&amp;url=https://valetzx.github.io/p/13d3.html&amp;pic=https://bing.icodeq.com/?17"
+    title="分享到微博" rel="noopener external nofollow noreferrer noopener">
+    <i class="fab fa-weibo" style="font-size:22px"></i>
+</a>
+</div>
+<div class="share-link copyurl">
+<div class="share-button" id="post-share-url" title="复制链接" onclick="acrylic.copyPageUrl()">
+    <i class="fas fa-link"></i>
+</div>
+</div>
+            </div>
+            <div class="post-tools-right">
+                <div class="tag_share">
+                    <div class="post-meta__tag-list">
+                        
+                            <a href="/tags/%E6%95%99%E7%A8%8B/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                教程
+                                <span class="tagsPageCount">16</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%99%BD%E5%AB%96/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                白嫖
+                                <span class="tagsPageCount">14</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%BD%91%E7%9B%98/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                网盘
+                                <span class="tagsPageCount">5</span>
+                            </a>
+                        
+                            <a href="/tags/Docker/" class="post-meta__tags">
+                                <span class="tags-punctuation">#</span>
+                                Docker
+                                <span class="tagsPageCount">2</span>
+                            </a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="post-copyright">
+    <div class="post-copyright__author">
+        <a class="post-copyright__original" title="该文章为原创文章，注意版权协议">原创</a>
+        <a class="post-copyright-title" href="#">
+            <span>在Docker中使用Rclone作为储存卷</span>
+        </a>
+    </div>
+    <div class="post-copyright__type">
+        <span class="post-copyright-info" id="post-copyright-url">
+            <a href="/p/13d3.html">https://valetzx.github.io/p/13d3.html</a>
+        </span>
+        <button class="post-copyright-copybtn" onclick="acrylic.copyPageUrl()">
+            <i class="fas fa-paste copy-btn"></i>
+        </button>
+    </div>
+    <div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用 <a
+                href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a> 协议，完整转载请注明来自 <a
+                href="/">猪猪博客</a>
+            </span>
+        </div>
+</div>
+        <nav class="pagination-post" id="pagination">
+    
+        <div class="prev-post pull-left">
+            <a href="/p/6b1c.html">
+                <div class="pagination-info">
+                    <div class="label">上一篇</div>
+                    <div class="prev_info">将Hexo-Butterfly主题更换至Acrylic-Next</div>
+                </div>
+            </a>
+        </div>
+        <div class="next-post pull-right">
+            <a href="/p/7e53.html">
+                <div class="pagination-info">
+                    <div class="label">下一篇</div>
+                    <div class="next_info">在Replit部署每日新闻项目</div>
+                </div>
+            </a>
+        </div>
+    
+</nav>
+            
+    </div>
+    <div class="aside-content" id="aside-content">
+    
+    
+        
+        <div class="card-widget card-info">
+    <div class="card-content">
+        <div class="card-info-avatar is-center">
+            <div class="author-info__sayhi" id="author-info__sayhi">
+            </div>
+            <div class="author-info__name">
+                金桔猪
+            </div>
+            <div class="author-info__description">这有关于<b>开发</b>、<b>室内设计</b>相关的问题和看法，还有对于游戏的一些<b>杂评</b>。<br>相信你可以在这里找到对你有用的知识和教程。</div>
+        </div>
+    </div>
+    <div class="banner-button-group">
+        <a class="banner-button" href="/">
+            <i class="fas fa-circle-chevron-right"></i>
+            <span class="banner-button-text">个人主页</span>
+        </a>
+    </div>
+    <div class="card-info-social-icons is-center">
+        
+            <a class="social-icon" target="_blank" rel="noopener" href="https://github.com/valetzx" title="Github">
+                <i class="fa-brands fa-github"></i>
+            </a>
+        
+            <a class="social-icon" href="mailto:a@nalex.top" title="Mail">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
+        
+    </div>
+</div>
+     
+    
+    <div class="sticky_layout">
+        
+            <div class="card-widget" id="card-toc">
+    <div class="item-headline">
+        <i class="fas fa-bars"></i>
+        <span>文章目录</span>
+    </div>
+    <div class="toc-content" id="toc-content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A"><span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%86%E5%A4%87%EF%BC%9A"><span class="toc-text">准备：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%EF%BC%9A"><span class="toc-text">开始：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="toc-text">安装流程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="toc-text">挂载流程：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SFTP-%E5%8D%B7%E6%8C%82%E8%BD%BD%E7%A4%BA%E4%BE%8B"><span class="toc-text">SFTP 卷挂载示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E7%BD%91%E7%BB%9C%E7%9B%98%E6%8C%82%E8%BD%BD%E7%A4%BA%E4%BE%8B"><span class="toc-text">任意网络盘挂载示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8CLI%E5%88%9B%E5%BB%BA%E5%8D%B7"><span class="toc-text">使用CLI创建卷</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Docker-Swarm-%E6%88%96Docker-Compose"><span class="toc-text">使用Docker Swarm 或Docker Compose</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-text">实战总结：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD%EF%BC%9A"><span class="toc-text">结语：</span></a></li></ol>
+    </div>
+</div>
+            
+        
+            
+        <div class="card-widget card-recent-post">
+    <div class="item-headline">
+        <i class="fas fa-list-ol"></i>
+        <span>最近发布</span>
+    </div>
+    <div class="aside-list">
+        
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/p/6b1c.html" title="将Hexo-Butterfly主题更换至Acrylic-Next">
+                    <img
+                        alt="将Hexo-Butterfly主题更换至Acrylic-Next"
+                        src="https://bing.icodeq.com/?230611">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/p/6b1c.html" title="将Hexo-Butterfly主题更换至Acrylic-Next">
+                        将Hexo-Butterfly主题更换至Acrylic-Next
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/p/13d3.html" title="在Docker中使用Rclone作为储存卷">
+                    <img
+                        alt="在Docker中使用Rclone作为储存卷"
+                        src="https://bing.icodeq.com/?17">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/p/13d3.html" title="在Docker中使用Rclone作为储存卷">
+                        在Docker中使用Rclone作为储存卷
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/p/7e53.html" title="在Replit部署每日新闻项目">
+                    <img
+                        alt="在Replit部署每日新闻项目"
+                        src="https://bing.icodeq.com/?16">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/p/7e53.html" title="在Replit部署每日新闻项目">
+                        在Replit部署每日新闻项目
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/p/f0c0.html" title="信息泄露分析以及日常">
+                    <img
+                        alt="信息泄露分析以及日常"
+                        src="https://bing.icodeq.com/?14">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/p/f0c0.html" title="信息泄露分析以及日常">
+                        信息泄露分析以及日常
+                    </a>
+                </div>
+            </div>
+                
+        
+            <div class="aside-list-item">
+                <a class="thumbnail" href="/p/98.html" title="白嫖Github学生包！">
+                    <img
+                        alt="白嫖Github学生包！"
+                        src="https://bing.icodeq.com/?13">
+                </a>
+                <div class="content">
+                    
+                    <a class="title" href="/p/98.html" title="白嫖Github学生包！">
+                        白嫖Github学生包！
+                    </a>
+                </div>
+            </div>
+            
+    </div>
+</div>
+     
+        
+    </div>
+</div> 
+</main>
+                <footer id="footer">
+                    <div id="footer_deal">
+    
+    <img class="footer_mini_logo" src="/img/avatar.webp"
+        title="返回顶部" onclick="acrylic.toTop()">
+    
+</div>    
+<div id="heo-footer">
+    
+    
+</div>
+<div id="footer-section">
+    <div class="footer-section-links">
+        <div class="footer-section-left">
+            <div id="footer-section-tips">
+                <div class="copyright">©2021 - 2023 By 
+                    <a class="footer-section-link" href="/" rel="external nofollow">金桔猪</a>
+                    <a class="footer-section-link" href="https://github.com/hexo-theme-Acrylic/Hexo-Theme-Acrylic-Next" rel="external nofollow" target="_blank"> Theme By Acrylic-Next</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-section-right">
+            <a class="footer-section-link" href="/rss/">订阅</a>
+            
+            <a class="footer-section-link cc" target="_blank" href="https://creativecommons.org/licenses/by/4.0/" title="cc协议">
+                <i class="fa-solid fa-closed-captioning"></i>
+            </a>
+        </div>
+    </div>
+</div>
+                </footer>
+            </div>
+         
+        <div>
+    <script type="text/javascript" src="/js/utils.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+    
+
+<script src="/lib/pjax.min.js"></script>
+
+
+
+<script src="/lib/snackbar.min.js"></script>
+
+
+    
+<script src="/lib/view-image.min.js"></script>
+
+
+
+<div id="js-pjax">
+    
+     
+</div>
+
+    
+<link rel="stylesheet" href="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css">
+
+    
+<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js"></script>
+
+    
+<script src="https://cdn1.tianli0.top/npm/meting@2.0.1/dist/Meting.min.js"></script>
+
+    <script>
+        var meting_api = "https://music.startly.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r";
+    </script>
+
+
+    
+<script src="/js/extend/covercolor/local.js"></script>
+
+        
+
+
+    <script>
+  let pjaxSelectors = [
+    'title',
+    '#body-wrap',
+    '#site-config',
+    'meta[name="description"]',
+    '#js-pjax'
+  ]
+  
+  const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+  })
+
+  document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+      pjax.loadUrl('/404.html')
+    }
+  })
+</script>
+    
+</div>
+        
+     
+        <div class="needEndHide" id="nav-music" onclick="acrylic.musicToggle()">
+    <div id="nav-music-hoverTips">音乐已暂停</div>
+    <meting-js id="8111304138" server="tencent" type="playlist" mutex="true"
+        preload="none" data-lrctype="0" order="random" theme="var(--heo-main)"></meting-js>
+</div>
+    
+    </body>
+</html>
+<script>const posts=["p/6b1c.html","p/13d3.html","p/7e53.html","p/f0c0.html","p/98.html","p/3412.html","p/15af.html","p/b147.html","p/799e.html","p/34c.html","p/c99d.html","p/1849.html","p/cb20.html","p/aa4a.html","p/a4f.html","p/439d.html","p/a8f2.html","p/a7fa.html","p/dc3a.html","p/a95e.html","p/a5af.html","p/13bd.html"];function toRandomPost(){ window.pjax ? pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]) : window.open('/'+posts[Math.floor(Math.random()*posts.length)], "_self"); };</script>

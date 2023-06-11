@@ -44,4 +44,4 @@ jobs:
           git config user.email "550029691@qq.com"
           git add .
           git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
-          git push --force --quiet "https://${{ secrets.ACCESS_TOKEN }}@github.com/valetzx/valetzx.github.io" master:master
+          git push

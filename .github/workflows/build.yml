@@ -31,11 +31,13 @@ jobs:
           cp -r dtmp/public/* .
           sudo timedatectl set-timezone "Asia/Shanghai"
           echo `date +"%Y-%m-%d %H:%M:%S"` begin > checktime.log
+          rm -rf dtmp
 
       - name: Deploy hexo blog
       # 将编译后的博客文件推送到指定仓库
         run: |
           git init && git add .
-          git add .
+          git config user.name "valetzx"
+          git config user.email "550029691@qq.com"
           git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
-          git push
+          git push --force --quiet "https://${{ secrets.ACCESS_TOKEN }}@github.com/valetzx/valetzx.github.io" master:master

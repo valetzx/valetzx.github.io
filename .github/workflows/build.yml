@@ -1,0 +1,47 @@
+name: Hexo Auto Deploy
+on:
+  # 触发条件1：main 分支收到 push 后执行任务。
+  push:
+    branches:
+      - main
+  watch:
+    types: [started]
+  schedule:
+    - cron: '0 15 * * *'
+
+jobs:
+  build:
+    name: Build on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        node_version: [16.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
+          
+      - name: Install dependencies
+        run: |
+          git clone https://github.com/valetzx/Hexo-Acrylic dtmp
+          cd dtmp && git submodule update --init
+          npm install && npm run deploy && cd ..
+          cp -r dtmp/public/* .
+          sudo timedatectl set-timezone "Asia/Shanghai"
+          echo `date +"%Y-%m-%d %H:%M:%S"` begin > checktime.log
+
+      - name: Deploy hexo blog
+      # 将编译后的博客文件推送到指定仓库
+        run: |
+          git init && git add .
+          git config user.name "valetzx"
+          git config user.email "550029691@qq.com"
+          git add .
+          git commit -m "GitHub Actions Auto Builder at $(date +'%Y-%m-%d %H:%M:%S')"
+          git push --force --quiet "https://${{ secrets.ACCESS_TOKEN }}@github.com/valetzx/valetzx.github.io" master:master

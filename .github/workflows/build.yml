@@ -3,7 +3,7 @@ on:
   watch:
     types: [started]
   schedule:
-    - cron: '0 15 * * *'
+    - cron: '12 14 * * *'
 
 jobs:
   build:

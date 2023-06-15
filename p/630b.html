@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>在Replit部署每日新闻项目 | 猪猪博客</title>
+<title>从0开始刷小米路由器4a千兆版 | 猪猪博客</title>
 <noscript>开启Javascript是必要的</noscript>
 <link rel="icon" type="image/x-icon" href="/img/avatar.webp">
 <link rel="apple-touch-icon" href="/img/avatar.webp">
@@ -321,7 +321,7 @@
         </div>
         <div id="page-name-mask">
             <div id="page-name">
-                <a id="page-name-text" onclick="acrylic.toTop()">在Replit部署每日新闻项目</a>
+                <a id="page-name-text" onclick="acrylic.toTop()">从0开始刷小米路由器4a千兆版</a>
             </div>
         </div>
         <div id="menus">
@@ -375,7 +375,7 @@
 </nav>
     
         <div class="coverdiv" id="coverdiv">
-    <img id="post-cover" class="nolazyload" src="https://bing.icodeq.com/?16" alt="cover">
+    <img id="post-cover" class="nolazyload" src="https://bing.icodeq.com/?230614" alt="cover">
 </div>
 <div id="post-info">
     <div id="post-firstinfo">
@@ -383,6 +383,12 @@
             <a class="post-meta-original" title="该文章为原创文章，注意版权协议">
                 原创
             </a>
+            
+            <span class="post-meta-categories">
+                
+                    <a class="post-meta-categories" href="/categories/2023%E6%96%B0%E7%AF%87/">2023新篇</a>
+                
+            </span>
             
             <div class="tag_share">
                 <div class="post-meta__tag-list">
@@ -392,26 +398,21 @@
                             <span class="tags-name">教程</span>
                         </a>
                     
-                        <a class="post-meta__tags" href="/tags/%E7%99%BD%E5%AB%96/">
+                        <a class="post-meta__tags" href="/tags/ZeroTier/">
                             <span class="tags-punctuation">#</span>
-                            <span class="tags-name">白嫖</span>
-                        </a>
-                    
-                        <a class="post-meta__tags" href="/tags/Replit/">
-                            <span class="tags-punctuation">#</span>
-                            <span class="tags-name">Replit</span>
+                            <span class="tags-name">ZeroTier</span>
                         </a>
                     
                 </div>
             </div>
         </div>
     </div>
-    <h1 class="post-title">在Replit部署每日新闻项目</h1>
+    <h1 class="post-title">从0开始刷小米路由器4a千兆版</h1>
     <div id="post-meta">
         <div class="meta-secondline">
             <span class="post-meta-date" title="发布于">
                 <i class="post-meta-icon fa-fw fas fa-calendar"></i>
-                <time datetime="2022-07-12T14:28:24+00:00"></time>
+                <time datetime="2023-06-15T08:01:24+00:00"></time>
             </span>
             
             
@@ -446,31 +447,55 @@
                 <main class="layout" id="content-inner">
     <div id="post">
         <article class="post-content" id="article-container">
-            <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>相信大家都有看到过，群里，公众号中，发过的每日新闻图片吧，作为一个爬虫项目的金典例子，这里给大家带来一个新的仓库，可以合并这些内容的项目：</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/zkeq/news">zkeq&#x2F;news: 前后端均基于 vercel 的轻量级每日早报项目，支持一键部署，支持部署至服务器。后端由 FastAPI + BeautifulSoup 实现。 (github.com)</a></p>
-<p>由于我的 <code>vercel</code> 请求太多了，这个项目需要用到 <code>severless</code> 资源，这里我们将这个项目部署至 <code>Replit</code> 来减少 <code>vercel</code> 负担(</p>
-<h1 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h1><ol>
-<li>注册一个Replit账号</li>
-<li>最好再注册一个Team</li>
-</ol>
-<h1 id="开始："><a href="#开始：" class="headerlink" title="开始："></a>开始：</h1><p>打开 <code>replit</code> 新建一个 <code>python</code> 仓库</p>
-<p>在 shell 中输入如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/valetzx/newsonreplit &amp;&amp; <span class="built_in">mv</span> -b newsonreplit/* ./ &amp;&amp; <span class="built_in">mv</span> -b newsonreplit/.[^.]* ./ &amp;&amp; <span class="built_in">rm</span> -rf *~ &amp;&amp; <span class="built_in">rm</span> -rf newsonreplit</span><br></pre></td></tr></table></figure>
-
-<p>等待 <code>Loading Nix environment...</code> 完成后，点绿色 <code>Run</code> 运行</p>
-<p>是不是肥肠的简单捏！</p>
-<h1 id="进阶："><a href="#进阶：" class="headerlink" title="进阶："></a>进阶：</h1><p>很明显，这个前端只能从部署的域名访问吗？</p>
-<p>并不是，我们可以通过修改 <code>index.js</code> 达到前后端分离的效果：</p>
-<p>在你的服务器上下载 <a target="_blank" rel="noopener" href="https://github.com/zkeq/news">https://github.com/zkeq/news</a> 源码解压</p>
-<p>修改 47行到67行的 <code>api</code> 请求，以及241行到257行的 <code>api</code> 请求：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">first_xhr</span> () &#123;</span><br><span class="line">    <span class="keyword">const</span> now_time = <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">getHours</span>() +<span class="string">&quot;hrs&quot;</span> + <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">getMinutes</span>() + <span class="string">&quot;min&quot;</span>;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">const</span> xhr_zhihu = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">        xhr_zhihu.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;/api?origin=zhihu&amp;_vercel_no_cache=1&#x27;</span> + <span class="string">&#x27;&amp;cache=&#x27;</span> + now_time);</span><br><span class="line">        xhr_zhihu.<span class="property">onload</span> = zhihu_first_load;</span><br><span class="line">        xhr_zhihu.<span class="property">onerror</span> = handleError_zhihu;</span><br><span class="line">        xhr_zhihu.<span class="title function_">send</span>();</span><br><span class="line">    &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        <span class="title function_">handleError_zhihu</span>(e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">const</span> xhr_163 = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">        xhr_163.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;/api?origin=163&amp;_vercel_no_cache=1&#x27;</span>+ <span class="string">&#x27;&amp;cache=&#x27;</span> + now_time);</span><br><span class="line">        xhr_163.<span class="property">onload</span> = _163_init_load;</span><br><span class="line">        xhr_163.<span class="property">onerror</span> = handleError_163;</span><br><span class="line">        xhr_163.<span class="title function_">send</span>();</span><br><span class="line">    &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">        <span class="title function_">handleError_163</span>(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">get_day_news</span>(<span class="params">index, origin</span>)&#123;</span><br><span class="line">      <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="title class_">NProgress</span>.<span class="title function_">start</span>();</span><br><span class="line">        <span class="keyword">const</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">        <span class="keyword">if</span> (origin === <span class="string">&#x27;zhihu&#x27;</span>) &#123;</span><br><span class="line">            cache =  <span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&#x27;zhihu_cache&#x27;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            cache =  <span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&#x27;163_cache&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        xhr.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">`/api?index=<span class="subst">$&#123;index&#125;</span>&amp;cache=<span class="subst">$&#123;cache&#125;</span>&amp;origin=<span class="subst">$&#123;origin&#125;</span>`</span>);</span><br><span class="line">        xhr.<span class="property">onload</span> = days_load;</span><br><span class="line">        xhr.<span class="property">onerror</span> = handleError;</span><br><span class="line">        xhr.<span class="title function_">send</span>();</span><br><span class="line">      &#125; <span class="keyword">catch</span>(error)&#123;</span><br><span class="line">            <span class="title function_">handleError</span>(error);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>将所有的 <code>/api</code> 前，添加上你的replit部署完成的域名，例：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xhr_zhihu.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;https://news.pighog.repl.co/api?origin=zhihu&amp;_vercel_no_cache=1&#x27;</span> + <span class="string">&#x27;&amp;cache=&#x27;</span> + now_time);</span><br></pre></td></tr></table></figure>
-
-<p>修改完成后，在你的服务器中配置访问 <code>index.html</code> 就可以达到前后端分离的效果拉！</p>
+            <h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>本文会带来一些工具，与你一起从入手开始为 小米路由器4a千兆版 <code>下文均用R4A代替</code> 刷机。最新购买的路由器版本号可能为 <code>2.30.28</code> 已经缺失了很多功能，需要下小米WiFi APP才能看到，所以我们选择刷 <code>OpenWrt</code> 并使用 <code>ZeroTier</code> 远程访问，如果你是23年前购买的老机型，可以参考网络上其他教程！</p>
+<p>PS：写到一半发现很多原作者都讲了，这篇文章随意讲讲小坑吧</p>
+<h1 id="准备："><a href="#准备：" class="headerlink" title="准备："></a>准备：</h1><p>一根网线以及一个能插网线的电脑</p>
+<p>解锁文件来自：<a target="_blank" rel="noopener" href="https://www.right.com.cn/forum/thread-8261014-1-1.html">https://www.right.com.cn/forum/thread-8261014-1-1.html</a></p>
+<p>下载 <code>2022-R4A最新开ssh工具.zip</code></p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://410252889.lanzouv.com/b0bt7de8d">https://410252889.lanzouv.com/b0bt7de8d</a> 密码:60rx</p>
+<p>固件推荐：<a target="_blank" rel="noopener" href="https://github.com/MrTaiKe/Action_OpenWrt_Xiaomi_R4AGv2">https://github.com/MrTaiKe/Action_OpenWrt_Xiaomi_R4AGv2</a></p>
+<p>我在使用：<a target="_blank" rel="noopener" href="https://github.com/ceclinux/Action_OpenWrt_Xiaomi_R4AGv2">https://github.com/ceclinux/Action_OpenWrt_Xiaomi_R4AGv2</a></p>
+<p>准备好可以连接ssh&#x2F;telnet的工具，Xshell或Termius，以及连接FTP的工具</p>
+<p>这俩工具Windows其实都有自带，可以在 <code>启用或关闭Windows功能</code> 中安装</p>
+<p>PS: 网上有些固件似乎不支持ipv6，大家看情况下载，我正在使用的固件支持ipv6并且自带了zerotier，但是没有科学上网工具我觉得问题不大，R4A本身性能不高不推荐什么都往里面塞。</p>
+<h1 id="开始："><a href="#开始：" class="headerlink" title="开始："></a>开始：</h1><h2 id="解锁-ssh-x2F-telnet"><a href="#解锁-ssh-x2F-telnet" class="headerlink" title="解锁 ssh&#x2F;telnet"></a>解锁 ssh&#x2F;telnet</h2><p>解压 <strong>2022-R4A最新开ssh工具.zip</strong> 尝试管理员打开 <strong>1.V2版开Telnet.bat</strong> 如果没反应或直接退出，双击进入 <strong>OpenWRTInvasion</strong> 文件夹。<code>SHIFT+右键</code> -&gt; <code>在此处打开 powershell 窗口</code> 输入 <code>.\python.exe .\remote_command_execution_vulnerability_v2.py</code> 回车运行等待完成后再次运行一遍指令即可开启 <strong>telnet</strong> 使用Windows自带的telnet或xshell等工具连接 <strong>192.168.31.1</strong> 用户名密码都为 <code>root</code></p>
+<h3 id="备份-原厂固件！重要！"><a href="#备份-原厂固件！重要！" class="headerlink" title="备份 原厂固件！重要！"></a>备份 原厂固件！重要！</h3><p>登录telnet后，输入 <code>cat /proc/mtd&amp;&amp;dd if=/dev/mtd0 of=/tmp/all_backup.bin</code> 文件会存在tmp目录，可以用ftp工具取出（如果使用资源管理器，请右键 all_backup.bin -&gt; 复制到文件夹，而不是用快捷键CTRL+C复制！），取出文件后确认文件大小为16M！如果非常小，建议重新复制文件！这个文件非常重要！后面恢复原厂固件需要用到！！！</p>
+<h3 id="刷入-breed（不死鸟）"><a href="#刷入-breed（不死鸟）" class="headerlink" title="刷入 breed（不死鸟）"></a>刷入 breed（不死鸟）</h3><p>准备FTB连接工具或资源管理器，在资源管理器路径栏填入 <code>ftp://192.168.31.1/tmp/</code> 回车，将 <strong>2022-R4A最新开ssh工具</strong> 目录中的 <code>breed.bin</code> 复制到 <strong><a href="ftp://192.168.31.1/tmp/">ftp://192.168.31.1/tmp/</a></strong> 文件夹内，在telnet中输入 <code>md5sum /tmp/breed.bin</code> 比对输出的MD5值 <strong>24e62762809c15ba3872e610a37451a3</strong> 如果不一样，请重新上传文件！</p>
+<p><strong>确认以上步骤！备份固件 <code>all_backup.bin 16MB</code> ！上传 <code>breed.bin</code> 均完成后！</strong></p>
+<p>刷入breed！在telnet中输入 <code>mtd write /tmp/breed.bin Bootloader</code> 这一步完成后会断网，很快。需要用网线，将网线插入wan口（你原来光猫接到路由器的口，拔下来用连电脑的网线插进去）在浏览器中输入 192.168.1.1 ，如果能进入breed后台，就可以随便造了。</p>
+<p>如果没能进入breed后台，请将路由器断电，然后按住复位键不放，路由器通电，等5到10秒钟松开复位键，浏览器输入192.168.1.1就能进入breed后台，以后想换固件也是这样进。</p>
+<h2 id="刷入固件"><a href="#刷入固件" class="headerlink" title="刷入固件"></a>刷入固件</h2><p>在刷入openwrt前，我们先在固件备份中备份 <code>编程器固件</code> 以及 <code>EEPROM</code>！然后点固件更新-&gt;常规固件，选择固件（你准备好的openwrt.bin固件或其他固件），选择你刚刚备份的 <strong>EEPROM</strong> 文件，这两个选好后，点上传，等待上传完成后会自动重启，在浏览器输入192.168.31.1等着就行。接下来的用户名和密码大概率为 <code>root/password</code> 如果不对，请询问固件作者。</p>
+<h2 id="刷回官方"><a href="#刷回官方" class="headerlink" title="刷回官方"></a>刷回官方</h2><p>将连接电脑的网线插入路由器wan口，将路由器断电，然后按住复位键不放，路由器通电，等5到10秒钟松开复位键，浏览器输入192.168.1.1进入breed后台。选择固件更新-&gt;编程器固件，选择上文备份的 <strong>all_backup.bin 16MB</strong> 确认勾选<code>自动重启</code>，取消勾选<code>保留现有Bootloader</code>，取消勾选 <code>保留现有EEPROM</code> 点上传，等待一会后，192.168.31.1会变回原来的小米路由器后台，并且失去breed，如果想再刷需要重新解锁telnet以及重新刷入breed！</p>
+<h1 id="进阶："><a href="#进阶：" class="headerlink" title="进阶："></a>进阶：</h1><h2 id="配置zerotier"><a href="#配置zerotier" class="headerlink" title="配置zerotier"></a>配置zerotier</h2><p>注册zerotier账号 - 新建network - 复制network id</p>
+<h3 id="配置config"><a href="#配置config" class="headerlink" title="配置config"></a>配置config</h3><p>config目录：<code>/etc/config/zerotier</code> 内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">config zerotier sample_config</span><br><span class="line">        option enabled 0</span><br><span class="line"></span><br><span class="line">        # persistent configuration folder (for ZT controller mode)</span><br><span class="line">        #option config_path &#x27;/etc/zerotier&#x27;</span><br><span class="line"></span><br><span class="line">        #option port &#x27;9993&#x27;</span><br><span class="line"></span><br><span class="line">        # Generate secret on first start</span><br><span class="line">        option secret &#x27;generate&#x27;</span><br><span class="line"></span><br><span class="line">        # Join a public network called Earth</span><br><span class="line">        list join &#x27;8056c2e21c000001&#x27;</span><br></pre></td></tr></table></figure>
+<p>我们需要改两处内容，<code>option enabled 0</code> 改 <code>1</code> 启用， <code>list join &#39;8056c2e21c000001&#39;</code> 中 <code>80xxxxx</code> 内容改为你的 <code>network id</code></p>
+<p>改好保存后可以重启一次路由，如果你的zerotier network是私有的(Private)，需要在zerotier后台勾选上你的设备。</p>
+<h3 id="配置网段"><a href="#配置网段" class="headerlink" title="配置网段"></a>配置网段</h3><p>在 <strong>Interfaces</strong> 接口中添加类似 <strong>ztr2q3rmku</strong> 这样的接口，并新建配置一个防火墙。</p>
+<p>将防火墙设置为全部允许，并添加转发目标 <strong>wan</strong>。</p>
+<p>在zerotier后台添加路由表：</p>
+<table>
+<thead>
+<tr>
+<th align="center">你设备的网段</th>
+<th align="center">zerotier分配给设备的ip</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">192.168.110.0&#x2F;24</td>
+<td align="center">172.22.11.22</td>
+</tr>
+<tr>
+<td align="center">192.168.31.0&#x2F;24</td>
+<td align="center">172.22.11.22</td>
+</tr>
+<tr>
+<td align="center">192.168.41.0&#x2F;24</td>
+<td align="center">172.22.11.23</td>
+</tr>
+</tbody></table>
+<p>以上表有两个 openwrt 设备，ip 分别是 <strong>172.22.11.22</strong> &#x2F; <strong>172.22.11.23</strong> ，而 <code>172.22.11.22</code> 有两个网段，分别是 <strong>192.168.110.0&#x2F;24</strong> &#x2F; <strong>192.168.31.0&#x2F;24</strong> 那我就可以通过另一个设备，连上zerotier后 直接访问 192.168.110.2，192.168.110.3 这样的设备，以及 192.168.31.1 这两个网段中的所有设备。</p>
+<h1 id="结语："><a href="#结语：" class="headerlink" title="结语："></a>结语：</h1><p>有很多地方都略过了，比如zerotier后台的一些操作，这些网上都有，我以前的文章页写过，这里就不多赘述了。如果后面有空，会再讲讲自构建你的openwrt，因为像这个小米路由器4a千兆版有很多ipk其实都不支持，需要自己编译。有问题可以到 Github 联系我。</p>
 
         </article>
         <div class="post-tools" id="post-tools">
@@ -483,18 +508,18 @@
         </div>
         <div class="share-main">
             <div class="share-main-all">
-                <div id="qrcode" title="https://valetzx.github.io/p/7e53.html">
+                <div id="qrcode" title="https://valetzx.github.io/p/630b.html">
                 </div>
                 <div class="reward-dec">使用手机访问这篇文章</div>
             </div>
         </div>
         <script type="text/javascript">
-            new QRCode(document.getElementById("qrcode"), "https://valetzx.github.io/p/7e53.html");
+            new QRCode(document.getElementById("qrcode"), "https://valetzx.github.io/p/630b.html");
         </script>
     </div>
 </div>
                 <div class="share-link weibo"><a class="share-button" target="_blank"
-    href="https://service.weibo.com/share/share.php?title=在Replit部署每日新闻项目&amp;url=https://valetzx.github.io/p/7e53.html&amp;pic=https://bing.icodeq.com/?16"
+    href="https://service.weibo.com/share/share.php?title=从0开始刷小米路由器4a千兆版&amp;url=https://valetzx.github.io/p/630b.html&amp;pic=https://bing.icodeq.com/?230614"
     title="分享到微博" rel="noopener external nofollow noreferrer noopener">
     <i class="fab fa-weibo" style="font-size:22px"></i>
 </a>
@@ -515,16 +540,10 @@
                                 <span class="tagsPageCount">17</span>
                             </a>
                         
-                            <a href="/tags/%E7%99%BD%E5%AB%96/" class="post-meta__tags">
+                            <a href="/tags/ZeroTier/" class="post-meta__tags">
                                 <span class="tags-punctuation">#</span>
-                                白嫖
-                                <span class="tagsPageCount">14</span>
-                            </a>
-                        
-                            <a href="/tags/Replit/" class="post-meta__tags">
-                                <span class="tags-punctuation">#</span>
-                                Replit
-                                <span class="tagsPageCount">5</span>
+                                ZeroTier
+                                <span class="tagsPageCount">2</span>
                             </a>
                         
                     </div>
@@ -535,12 +554,12 @@
     <div class="post-copyright__author">
         <a class="post-copyright__original" title="该文章为原创文章，注意版权协议">原创</a>
         <a class="post-copyright-title" href="#">
-            <span>在Replit部署每日新闻项目</span>
+            <span>从0开始刷小米路由器4a千兆版</span>
         </a>
     </div>
     <div class="post-copyright__type">
         <span class="post-copyright-info" id="post-copyright-url">
-            <a href="/p/7e53.html">https://valetzx.github.io/p/7e53.html</a>
+            <a href="/p/630b.html">https://valetzx.github.io/p/630b.html</a>
         </span>
         <button class="post-copyright-copybtn" onclick="acrylic.copyPageUrl()">
             <i class="fas fa-paste copy-btn"></i>
@@ -554,22 +573,17 @@
 </div>
         <nav class="pagination-post" id="pagination">
     
-        <div class="prev-post pull-left">
-            <a href="/p/13d3.html">
-                <div class="pagination-info">
-                    <div class="label">上一篇</div>
-                    <div class="prev_info">在Docker中使用Rclone作为储存卷</div>
-                </div>
-            </a>
-        </div>
-        <div class="next-post pull-right">
-            <a href="/p/f0c0.html">
-                <div class="pagination-info">
-                    <div class="label">下一篇</div>
-                    <div class="next_info">信息泄露分析以及日常</div>
-                </div>
-            </a>
-        </div>
+        
+            <div class="next-post pull-full">
+                <a href="/p/6b1c.html">
+                    <div class="pagination-info">
+                        <div class="label">下一篇</div>
+                        <div class="next_info">将Hexo-Butterfly主题更换至Acrylic-Next</div>
+                    </div>
+                </a>
+            </div>
+                
+        
     
 </nav>
             
@@ -617,7 +631,7 @@
         <span>文章目录</span>
     </div>
     <div class="toc-content" id="toc-content">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A"><span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%86%E5%A4%87%EF%BC%9A"><span class="toc-text">准备：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%EF%BC%9A"><span class="toc-text">开始：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%9B%E9%98%B6%EF%BC%9A"><span class="toc-text">进阶：</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A"><span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%86%E5%A4%87%EF%BC%9A"><span class="toc-text">准备：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%EF%BC%9A"><span class="toc-text">开始：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E9%94%81-ssh-x2F-telnet"><span class="toc-text">解锁 ssh&#x2F;telnet</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD-%E5%8E%9F%E5%8E%82%E5%9B%BA%E4%BB%B6%EF%BC%81%E9%87%8D%E8%A6%81%EF%BC%81"><span class="toc-text">备份 原厂固件！重要！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B7%E5%85%A5-breed%EF%BC%88%E4%B8%8D%E6%AD%BB%E9%B8%9F%EF%BC%89"><span class="toc-text">刷入 breed（不死鸟）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B7%E5%85%A5%E5%9B%BA%E4%BB%B6"><span class="toc-text">刷入固件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B7%E5%9B%9E%E5%AE%98%E6%96%B9"><span class="toc-text">刷回官方</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%9B%E9%98%B6%EF%BC%9A"><span class="toc-text">进阶：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEzerotier"><span class="toc-text">配置zerotier</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEconfig"><span class="toc-text">配置config</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%BD%91%E6%AE%B5"><span class="toc-text">配置网段</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD%EF%BC%9A"><span class="toc-text">结语：</span></a></li></ol>
     </div>
 </div>
             

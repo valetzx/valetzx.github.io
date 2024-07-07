@@ -458,12 +458,12 @@
 <h1 id="开始："><a href="#开始：" class="headerlink" title="开始："></a>开始：</h1><h3 id="安装流程："><a href="#安装流程：" class="headerlink" title="安装流程："></a>安装流程：</h3><ol>
 <li>首先你需要在你的 主机(VPS等) 安装 <code>FUSE</code> 模块，这是必要的！</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get -y install fuse</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get -y install fuse</span><br></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>创建两个 <code>rclone docker plugin</code> 的数据缓存文件夹（默认）</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /var/lib/docker-plugins/rclone/config</span><br><span class="line">sudo <span class="built_in">mkdir</span> -p /var/lib/docker-plugins/rclone/cache</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /var/lib/docker-plugins/rclone/config</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /var/lib/docker-plugins/rclone/cache</span><br></pre></td></tr></table></figure>
 
 <ol start="3">
 <li>为你的docker安装插件</li>

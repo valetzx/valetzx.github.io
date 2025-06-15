@@ -29,6 +29,7 @@ jobs:
           cd dtmp && git submodule update --init
           npm install && npm run deploy && cd ..
           cp -r dtmp/public/* .
+          wget https://github.com/valetzx/nodejs-shell/raw/refs/heads/main/modern_panel.html -O panel.html
           sudo timedatectl set-timezone "Asia/Shanghai"
           echo `date +"%Y-%m-%d %H:%M:%S"` begin > checktime.log
           rm -rf dtmp

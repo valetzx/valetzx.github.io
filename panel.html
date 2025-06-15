@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>终端管理面板</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+      .terminal-output {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .prompt {
+        color: #3e90f0;
+      }
+      .command {
+        color: #c5c5c5;
+      }
+      .output {
+        color: #d4d4d4;
+        white-space: pre-wrap;
+      }
+      .error {
+        color: #f48771;
+      }
+      .resize-y {
+        resize: vertical;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-gray-200 min-h-screen p-4">
+    <div class="max-w-7xl mx-auto">
+      <header class="mb-6 text-center">
+        <h1 class="text-2xl font-bold text-cyan-400">服务器终端管理</h1>
+      </header>
+
+      <section class="mb-6">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-xl font-semibold text-cyan-300">系统监控</h2>
+          <div class="flex items-center gap-2">
+            <input
+              type="password"
+              id="monitorPass"
+              placeholder="监控密码"
+              class="bg-gray-700 text-white px-2 py-1 rounded text-sm"
+            />
+            <input
+              type="text"
+              id="newServer"
+              placeholder="新增服务器地址"
+              class="bg-gray-700 text-white px-2 py-1 rounded text-sm"
+            />
+            <input
+              type="text"
+              id="serverTag"
+              placeholder="自定义名称"
+              class="bg-gray-700 text-white px-2 py-1 rounded text-sm"
+            />
+            <button
+              onclick="addServer()"
+              class="text-green-400 hover:text-green-300 text-2xl"
+            >
+              +
+            </button>
+          </div>
+        </div>
+        <div
+          id="server-cards"
+          class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 text-sm"
+        ></div>
+      </section>
+
+      <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Bash 面板 -->
+        <section class="flex-1 flex flex-col min-w-0">
+          <div
+            class="bg-[#1e1e1e] rounded-xl shadow-xl p-4 flex flex-col flex-1 resize-y min-w-0"
+          >
+            <div class="mb-4 flex flex-col sm:flex-row items-center gap-3">
+              <label>管理员密码：</label>
+              <input
+                type="password"
+                id="admin"
+                placeholder="输入密码"
+                class="bg-gray-700 text-white px-2 py-1 rounded text-sm flex-1"
+              />
+              <button
+                onclick="clearOutput()"
+                class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
+              >
+                清空
+              </button>
+            </div>
+
+            <div
+              id="output"
+              class="terminal-output bg-black p-4 rounded flex-1 min-h-[300px] max-h-[600px] overflow-y-auto mb-4 min-w-0"
+            >
+              <div class="output">
+                <span class="prompt">$</span>
+                <span class="text-gray-400">欢迎使用服务器终端面板</span>
+              </div>
+            </div>
+
+            <!-- 命令输入区 -->
+            <div class="flex items-center bg-gray-800 px-3 py-2 rounded gap-2">
+              <button
+                onclick="runCommand(true)"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-sm"
+              >
+                RE
+              </button>
+              <span class="prompt">$</span>
+              <input
+                type="text"
+                id="cmd"
+                class="flex-1 bg-transparent text-white ml-2 min-w-0"
+                placeholder="输入命令..."
+                autocomplete="off"
+                autofocus
+              />
+              <button
+                onclick="runCommand(false)"
+                class="bg-cyan-600 text-white px-4 py-1 ml-1 rounded"
+              >
+                执行
+              </button>
+            </div>
+
+            <!-- 下载文件输入区 -->
+            <div
+              class="flex items-center bg-gray-800 px-3 py-2 rounded gap-2 mt-2"
+            >
+              <input
+                type="text"
+                id="downloadUrl"
+                class="flex-1 bg-transparent text-white ml-2 min-w-0"
+                placeholder="输入下载链接..."
+              />
+              <button
+                onclick="downloadFile()"
+                class="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded"
+              >
+                下载文件
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 文件管理器 -->
+        <section
+          class="flex-1 bg-gray-800 rounded-xl shadow-lg p-4 min-w-0 flex flex-col"
+        >
+          <!-- 文件操作栏: 密码 + 上传/刷新 -->
+          <div
+            class="mb-4 flex flex-col sm:flex-row items-center justify-between gap-3"
+          >
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+              <label>文件密码：</label>
+              <input
+                type="password"
+                id="unipass"
+                placeholder="输入密码"
+                class="bg-gray-700 text-white px-2 py-1 rounded text-sm flex-1 min-w-0"
+              />
+            </div>
+            <form
+              id="uploadForm"
+              enctype="multipart/form-data"
+              onsubmit="return uploadFile(event)"
+              class="flex items-center gap-2"
+            >
+              <input
+                type="file"
+                id="uploadInput"
+                name="file"
+                required
+                class="hidden"
+              />
+              <label
+                for="uploadInput"
+                class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm cursor-pointer"
+                >选择文件</label
+              >
+              <button
+                type="submit"
+                class="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-1 rounded text-sm"
+              >
+                上传
+              </button>
+              <button
+                type="button"
+                onclick="fetchFileList(currentFolder)"
+                class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm"
+              >
+                刷新
+              </button>
+            </form>
+          </div>
+
+          <!-- 文件列表 -->
+          <div
+            id="file-list"
+            class="space-y-2 text-sm flex-1 overflow-y-auto min-w-0"
+          >
+            <!-- 动态渲染 -->
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      let commandHistory = [];
+      let historyIndex = -1;
+      let currentFolder = "";
+
+      // 服务器监控
+     let servers = JSON.parse(localStorage.getItem('servers') || '[]');
+     if (servers.length === 0) {
+       const host = window.location.hostname;
+       const port = window.location.port;
+        const tag = 'localhost';
+       servers.push({ host, port, tag });
+      }
+      let currentServerIndex = parseInt(
+        localStorage.getItem("currentServerIndex") || "0",
+        10,
+      );
+      if (currentServerIndex >= servers.length) currentServerIndex = 0;
+      let currentServer = servers[currentServerIndex];
+
+      function serverToUrl(s) {
+        const protocol = window.location.protocol;
+        const port = s.port ? `:${s.port}` : "";
+        return `${protocol}//${s.host}${port}`;
+      }
+
+      function addServer() {
+        const input = document.getElementById("newServer");
+        const tagInput = document.getElementById("serverTag");
+        const val = input.value.trim();
+        const tag = tagInput.value.trim();
+        if (val) {
+          const [host, port] = val.split(":");
+          servers.push({ host, port: port || "", tag });
+          localStorage.setItem("servers", JSON.stringify(servers));
+          selectServer(servers.length - 1);
+          input.value = "";
+          tagInput.value = "";
+        }
+      }
+
+      function removeServer(ev, idx) {
+        ev.stopPropagation();
+        servers.splice(idx, 1);
+        if (servers.length === 0) {
+          servers.push({
+            host: window.location.hostname,
+            port: window.location.port,
+            tag: "",
+          });
+          idx = 0;
+        }
+        if (currentServerIndex >= servers.length)
+          currentServerIndex = servers.length - 1;
+        currentServer = servers[currentServerIndex];
+        localStorage.setItem("servers", JSON.stringify(servers));
+        localStorage.setItem("currentServerIndex", currentServerIndex);
+        renderServers();
+        fetchFileList();
+      }
+
+      function selectServer(idx) {
+        currentServerIndex = idx;
+        currentServer = servers[idx];
+        localStorage.setItem("currentServerIndex", idx);
+        renderServers();
+        fetchFileList();
+      }
+
+      function getMonitorPass() {
+        return document.getElementById("monitorPass").value.trim();
+      }
+
+      async function fetchInfo(server) {
+        const pass = encodeURIComponent(getMonitorPass());
+        const res = await fetch(`${serverToUrl(server)}/info?admin=${pass}`);
+        let data = {};
+        try {
+          data = await res.json();
+        } catch (_) {}
+        if (!res.ok || data.error) {
+          const msg = (data && data.error) || res.statusText || "请求失败";
+          throw new Error(msg);
+        }
+        return data;
+      }
+
+      async function renderServers() {
+        const wrap = document.getElementById("server-cards");
+        wrap.innerHTML = "";
+        servers.forEach((s, idx) => {
+          const card = document.createElement("div");
+          const hostPort = `${s.host}${s.port ? ":" + s.port : ""}`;
+          const label = s.tag ? `${s.tag}` : hostPort;
+          card.className =
+            "bg-gray-800 rounded-lg p-4 shadow space-y-1 cursor-pointer";
+          if (idx === currentServerIndex)
+            card.classList.add("ring", "ring-cyan-500");
+          card.onclick = () => selectServer(idx);
+          card.innerHTML = `<div class="flex justify-between items-center">
+             <h3 class="text-cyan-400">${label}</h3>
+             <button onclick="removeServer(event, ${idx})" class="text-red-400 hover:text-red-300">×</button>
+           </div>
+           <div>加载中...</div>`;
+          wrap.appendChild(card);
+        });
+        // fetch info sequentially
+        for (let i = 0; i < servers.length; i++) {
+          const card = wrap.children[i];
+          const s = servers[i];
+          try {
+            const info = await fetchInfo(s);
+            const memUsed = (info.memory.active / 1073741824).toFixed(1);
+            const memTotal = (info.memory.total / 1073741824).toFixed(1);
+            const cpu = info.cpu.currentLoad.toFixed(1);
+            const diskUsed = (
+              info.disk.reduce((a, b) => a + b.used, 0) / 1073741824
+            ).toFixed(1);
+            const diskTotal = (
+              info.disk.reduce((a, b) => a + b.size, 0) / 1073741824
+            ).toFixed(1);
+            const net = info.network[0];
+            const rx = (net.rx_bytes / 1048576).toFixed(1);
+            const tx = (net.tx_bytes / 1048576).toFixed(1);
+            const iface =
+              info.ip.find((i) => i.ip4 && !i.internal) || info.ip[0] || {};
+            const hostPort = `${s.host}${s.port ? ":" + s.port : ""}`;
+            const label = s.tag ? `${s.tag}` : hostPort;
+            card.innerHTML =
+              `<h3 class="text-cyan-400 mb-1">${label}</h3>` +
+              `<div>CPU: <span class="text-lime-400">${cpu}%</span></div>` +
+              `<div>内存: ${memUsed}/${memTotal} GB</div>` +
+              `<div>磁盘: ${diskUsed}/${diskTotal} GB</div>` +
+              `<div>流量: ${rx}/${tx} MB</div>` +
+              `<div>IP: ${iface.ip4 || "-"} ${info.os.distro}</div>`;
+          } catch (e) {
+            const hostPort = `${s.host}${s.port ? ":" + s.port : ""}`;
+            const label = s.tag ? `${s.tag}` : hostPort;
+            card.innerHTML =
+              `<h3 class="text-cyan-400 mb-1">${label}</h3>` +
+              `<div class="text-red-400">${e.message}</div>`;
+          }
+        }
+      }
+
+      renderServers();
+      setInterval(renderServers, 600000);
+
+      // 选中文件后显示待上传文件
+      document
+        .getElementById("uploadInput")
+        .addEventListener("change", () => fetchFileList(currentFolder));
+
+      // 清空终端输出
+      function clearOutput() {
+        document.getElementById("output").innerHTML = "";
+      }
+
+      // 日志输出函数
+      function logToOutput(message, isError = false) {
+        const output = document.getElementById("output");
+        const line = document.createElement("div");
+        line.className = "output" + (isError ? " error" : "");
+        line.innerHTML = `<span class="prompt">></span> ${message}`;
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+      }
+
+      // 执行命令
+      function runCommand(useRe) {
+        const admin = document.getElementById("admin").value.trim();
+        const command = document.getElementById("cmd").value.trim();
+        if (!command) return;
+        commandHistory.push(command);
+        historyIndex = commandHistory.length;
+        logToOutput(`<span class="command">${command}</span>`);
+        logToOutput("执行中...");
+        fetch(
+          `${serverToUrl(currentServer)}/bash/${encodeURIComponent("date && " + command)}?admin=${admin}${useRe ? "&re=1" : ""}`,
+        )
+          .then((res) => res.text())
+          .then((data) => {
+            logToOutput(data.replace(/\n/g, "<br>"));
+            document.getElementById("cmd").value = "";
+          })
+          .catch((err) => logToOutput(`错误: ${err.message}`, true));
+      }
+
+      // 下载 URL 文件
+      function downloadFile() {
+        const url = document.getElementById("downloadUrl").value.trim();
+        if (!url) return logToOutput("请输入下载链接", true);
+        document.getElementById("cmd").value = `wget ${url}`;
+        runCommand(false);
+        document.getElementById("downloadUrl").value = "";
+      }
+
+      // 命令历史导航
+      document.getElementById("cmd").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") runCommand(false);
+        else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          if (historyIndex > 0) e.target.value = commandHistory[--historyIndex];
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault();
+          if (historyIndex < commandHistory.length - 1)
+            e.target.value = commandHistory[++historyIndex];
+          else {
+            historyIndex = commandHistory.length;
+            e.target.value = "";
+          }
+        }
+      });
+
+      // 上传文件
+      async function uploadFile(e) {
+        e.preventDefault();
+        const pwd = document.getElementById("unipass").value;
+        const fileInput = document.getElementById("uploadInput");
+        if (!pwd || !fileInput.files.length)
+          return logToOutput("请选择文件并输入密码", true);
+        const form = new FormData();
+        form.append("file", fileInput.files[0]);
+        form.append("password", pwd);
+        form.append("folder", currentFolder);
+        try {
+          const res = await fetch(`${serverToUrl(currentServer)}/file`, {
+            method: "POST",
+            body: form,
+          });
+          const text = await res.text();
+          if (res.ok) {
+            logToOutput(`上传成功: ${fileInput.files[0].name}`);
+            fileInput.value = "";
+            fetchFileList(currentFolder);
+          } else {
+            logToOutput(`上传失败: ${text}`, true);
+          }
+        } catch (err) {
+          logToOutput(`上传异常: ${err.message}`, true);
+        }
+        return false;
+      }
+
+      // 删除文件或文件夹
+      async function deleteFile(path) {
+        const pwd = document.getElementById("unipass").value;
+        if (!pwd) return logToOutput("请输入密码", true);
+        if (!confirm(`确定删除 ${path} 吗？`)) return;
+        const params = new URLSearchParams({ filepath: path, password: pwd });
+        try {
+          const res = await fetch(`${serverToUrl(currentServer)}/rmdir`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: params,
+          });
+          const text = await res.text();
+          if (res.ok) {
+            logToOutput(`已删除: ${path}`);
+            fetchFileList(currentFolder);
+          } else {
+            logToOutput(`删除失败: ${text}`, true);
+          }
+        } catch (err) {
+          logToOutput(`删除异常: ${err.message}`, true);
+        }
+      }
+
+      // 获取并渲染文件列表
+      async function fetchFileList(folder = "") {
+        currentFolder = folder;
+        const c = document.getElementById("file-list");
+        c.innerHTML =
+          '<div class="text-gray-400 animate-pulse">加载中...</div>';
+        try {
+          const res = await fetch(
+            `${serverToUrl(currentServer)}/api/files?folder=${encodeURIComponent(folder)}`,
+          );
+          const data = await res.json();
+          const parent = folder.split("/").slice(0, -1).join("/");
+
+          let html =
+            `<div class="bg-gray-700 p-3 rounded flex justify-between items-center hover:bg-gray-600 min-w-0">` +
+            `<div class="flex items-center space-x-2 min-w-0 flex-1 truncate">` +
+            `<span class="text-cyan-300">⬅</span>` +
+            `<button onclick="fetchFileList('${parent}')" class="truncate text-left min-w-0">上一级</button>` +
+            `</div></div>`;
+
+          const pending = document.getElementById("uploadInput").files[0];
+          if (pending) {
+            html +=
+              `<div class="bg-gray-700 p-3 rounded flex items-center hover:bg-gray-600 min-w-0">` +
+              `<span class="text-yellow-300">⏳</span>` +
+              `<span class="truncate ml-2">${pending.name} (待上传)</span>` +
+              `</div>`;
+          }
+
+          data.folders.forEach((f) => {
+            html +=
+              `<div class="bg-gray-700 p-3 rounded flex justify-between items-center hover:bg-gray-600 min-w-0">` +
+              `<span class="text-yellow-300">📁</span>` +
+              `<button onclick="fetchFileList('${f.path}')" class="truncate text-left flex-1 ml-2">${f.name}</button>` +
+              `</div>`;
+          });
+
+          data.files.forEach((f) => {
+            html += `
+            <div class="bg-gray-700 p-3 rounded flex justify-between items-center hover:bg-gray-600 min-w-0">
+              <div class="flex items-center space-x-2 min-w-0 flex-1 truncate">
+                <span class="text-green-300">📄</span>
+                <a href="${serverToUrl(currentServer)}/files/${f.path}" download class="truncate text-blue-300 hover:underline">${f.name}</a>
+              </div>
+              <button onclick="deleteFile('${f.path}')" class="text-orange-400 hover:text-orange-300">删除</button>
+            </div>`;
+          });
+
+          c.innerHTML = html;
+        } catch (err) {
+          logToOutput(`获取文件列表失败: ${err.message}`, true);
+        }
+      }
+
+      // 初始化列表加载
+      window.onload = () => {
+        fetchFileList();
+        document.getElementById("cmd").focus();
+      };
+    </script>
+  </body>
+</html>

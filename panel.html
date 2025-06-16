@@ -178,6 +178,13 @@
                 value="guest"
                 class="bg-gray-700 text-white px-2 py-1 rounded text-sm flex-1"
               />
+              <div class="flex items-center gap-1">
+                <span class="text-sm text-gray-300">SSH</span>
+                <label class="switch">
+                  <input type="checkbox" id="toggleSSH" />
+                  <span class="slider"></span>
+                </label>
+              </div>
               <button
                 onclick="clearOutput()"
                 class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
@@ -235,7 +242,7 @@
                 onclick="downloadFile()"
                 class="bg-green-600 hover:bg-green-700 text-white px-4 py-1 rounded text-sm"
               >
-                下载文件
+                下载
               </button>
             </div>
           </div>
@@ -306,6 +313,8 @@
       let commandHistory = [];
       let historyIndex = -1;
       let currentFolder = "";
+      let sshWs = null;
+      let useSSH = false;
 
       // 服务器监控
       let servers = JSON.parse(localStorage.getItem("servers") || "[]");
@@ -489,6 +498,42 @@
         output.scrollTop = output.scrollHeight;
       }
 
+      function connectSSH() {
+        const admin = document.getElementById("admin").value.trim();
+        const url = serverToUrl(currentServer)
+          .replace(/^http/, "ws")
+          .concat(`/ssh?admin=${admin}`);
+        sshWs = new WebSocket(url);
+
+        sshWs.onopen = () => {
+          logToOutput("✅ SSH 连接成功");
+        };
+
+        sshWs.onmessage = (e) => {
+          if (typeof e.data === "string") {
+            logToOutput(e.data.replace(/\n/g, "<br>"));
+          } else if (e.data instanceof Blob) {
+            e.data
+              .text()
+              .then((txt) => logToOutput(txt.replace(/\n/g, "<br>")));
+          }
+        };
+
+        sshWs.onclose = () => {
+          logToOutput("❌ SSH 连接已关闭");
+          sshWs = null;
+          document.getElementById("toggleSSH").checked = false;
+          useSSH = false;
+        };
+
+        sshWs.onerror = () => {
+          logToOutput("🚫 SSH 连接错误", true);
+          document.getElementById("toggleSSH").checked = false;
+          useSSH = false;
+          if (sshWs) sshWs.close();
+        };
+      }
+
       // 执行命令
       function runCommand(useRe) {
         const admin = document.getElementById("admin").value.trim();
@@ -497,23 +542,33 @@
         commandHistory.push(command);
         historyIndex = commandHistory.length;
         logToOutput(`<span class="command">${command}</span>`);
-        logToOutput("执行中...");
-        fetch(
-          `${serverToUrl(currentServer)}/bash/${encodeURIComponent("date && " + command)}?admin=${admin}${useRe ? "&re=1" : ""}`,
-        )
-          .then((res) => res.text())
-          .then((data) => {
-            logToOutput(data.replace(/\n/g, "<br>"));
+        if (useSSH) {
+          if (!sshWs || sshWs.readyState !== WebSocket.OPEN) connectSSH();
+          if (sshWs && sshWs.readyState === WebSocket.OPEN) {
+            sshWs.send(command + "\n");
             document.getElementById("cmd").value = "";
-          })
-          .catch((err) => logToOutput(`错误: ${err.message}`, true));
+          } else {
+            logToOutput("SSH 连接未就绪", true);
+          }
+        } else {
+          logToOutput("执行中...");
+          fetch(
+            `${serverToUrl(currentServer)}/bash/${encodeURIComponent("date && " + command)}?admin=${admin}${useRe ? "&re=1" : ""}`,
+          )
+            .then((res) => res.text())
+            .then((data) => {
+              logToOutput(data.replace(/\n/g, "<br>"));
+              document.getElementById("cmd").value = "";
+            })
+            .catch((err) => logToOutput(`错误: ${err.message}`, true));
+        }
       }
 
       // 下载 URL 文件
       function downloadFile() {
         const url = document.getElementById("downloadUrl").value.trim();
         if (!url) return logToOutput("请输入下载链接", true);
-        document.getElementById("cmd").value = `wget ${url}`;
+        document.getElementById("cmd").value = `wget ${url} --no-check-certificate`;
         runCommand(false);
         document.getElementById("downloadUrl").value = "";
       }
@@ -629,10 +684,17 @@
           data.files.forEach((f) => {
             let downloadLink = `${serverToUrl(currentServer)}/files/${f.path}`;
             if (f.name === "README.md" && currentServer.host === "guest") {
-              downloadLink = "https://raw.githubusercontent.com/valetzx/nodejs-shell/refs/heads/main/README.md";
-            } else if (f.name === ">> Click TO MY Github <<" && currentServer.host === "guest") {
+              downloadLink =
+                "https://raw.githubusercontent.com/valetzx/nodejs-shell/refs/heads/main/README.md";
+            } else if (
+              f.name === ">> Click TO MY Github <<" &&
+              currentServer.host === "guest"
+            ) {
               downloadLink = "https://github.com/valetzx/nodejs-shell";
-            } else if (f.name === "test.jpg" && currentServer.host === "guest") {
+            } else if (
+              f.name === "test.jpg" &&
+              currentServer.host === "guest"
+            ) {
               downloadLink = "https://www.dmoe.cc/random.php";
             }
             html += `
@@ -751,9 +813,19 @@
         .getElementById("toggleServers")
         .addEventListener("change", applyToggleState);
 
+      document.getElementById("toggleSSH").addEventListener("change", (e) => {
+        useSSH = e.target.checked;
+        if (useSSH) connectSSH();
+        else if (sshWs) {
+          sshWs.close();
+          sshWs = null;
+        }
+      });
+
       // 默认初始收起
       document.getElementById("toggleServers").checked = false;
       applyToggleState();
+      document.getElementById("toggleSSH").checked = false;
 
       // 初始化列表加载
       window.onload = () => {

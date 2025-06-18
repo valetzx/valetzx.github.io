@@ -64,12 +64,35 @@
         border-radius: 50%;
       }
 
+      .pb-2 {
+        padding-bottom: 1rem;
+        padding-top: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .no-select {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
       input:checked + .slider {
         background-color: #06b6d4;
       }
 
       input:checked + .slider:before {
         transform: translateX(20px);
+      }
+
+      /* Hide scrollbar for server cards container */
+      #server-cards {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      #server-cards::-webkit-scrollbar {
+        display: none;
       }
     </style>
   </head>
@@ -126,10 +149,10 @@
         <!-- 服务器列表 -->
         <div
           id="server-cards"
-          class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 text-sm mb-4"
+          class="flex gap-4 overflow-x-auto text-sm mb-4 pb-2 cursor-grab active:cursor-grabbing"
         >
           <div
-            class="bg-gray-800 p-4 rounded cursor-pointer hover:bg-gray-700"
+            class="bg-gray-800 p-4 rounded cursor-pointer hover:bg-gray-700 min-w-[16rem] no-select"
             onclick="showServerInfo('guest')"
           >
             guest
@@ -391,6 +414,34 @@
         fetchFileList();
       }
 
+      function editServer(ev, idx) {
+        ev.stopPropagation();
+        const s = servers[idx];
+        const hostPort = prompt(
+          "输入服务器地址 (host:port)",
+          `${s.host}${s.port ? ":" + s.port : ""}`,
+        );
+        if (hostPort === null) return;
+        const tag = prompt("自定义名称", s.tag || "");
+        if (tag === null) return;
+        const [host, port] = hostPort.split(":");
+        let pos = prompt(`新的顺序 (0-${servers.length - 1})`, idx);
+        let newIndex = parseInt(pos, 10);
+        if (isNaN(newIndex) || newIndex < 0 || newIndex >= servers.length) {
+          newIndex = idx;
+        }
+        servers[idx] = { host, port: port || "", tag };
+        if (newIndex !== idx) {
+          const item = servers.splice(idx, 1)[0];
+          servers.splice(newIndex, 0, item);
+          currentServerIndex = newIndex;
+        }
+        localStorage.setItem("servers", JSON.stringify(servers));
+        localStorage.setItem("currentServerIndex", currentServerIndex);
+        renderServers();
+        fetchFileList();
+      }
+
       function selectServer(idx) {
         currentServerIndex = idx;
         currentServer = servers[idx];
@@ -425,13 +476,21 @@
           const hostPort = `${s.host}${s.port ? ":" + s.port : ""}`;
           const label = s.tag ? `${s.tag}` : hostPort;
           card.className =
-            "bg-gray-800 rounded-lg p-4 shadow space-y-1 cursor-pointer";
+            "bg-gray-800 rounded-lg p-4 shadow space-y-1 cursor-pointer flex-shrink-0 min-w-[16rem] no-select";
           if (idx === currentServerIndex)
-            card.classList.add("ring", "ring-cyan-500");
+            card.classList.add(
+              "ring-2",
+              "ring-cyan-500",
+              "ring-offset-2",
+              "ring-offset-gray-900"
+            );
           card.onclick = () => selectServer(idx);
           card.innerHTML = `<div class="flex justify-between items-center">
              <h3 class="text-cyan-400">${label}</h3>
-             <button onclick="removeServer(event, ${idx})" class="text-red-400 hover:text-red-300">×</button>
+             <div class="space-x-2">
+               <button onclick="editServer(event, ${idx})" class="text-yellow-400 hover:text-yellow-300">⚙︎</button>
+               <button onclick="removeServer(event, ${idx})" class="text-red-400 hover:text-red-300 text-xs">✕</button>
+             </div>
            </div>
            <div>加载中...</div>`;
           wrap.appendChild(card);
@@ -444,13 +503,17 @@
             const info = await fetchInfo(s);
             const memUsed = (info.memory.active / 1073741824).toFixed(1);
             const memTotal = (info.memory.total / 1073741824).toFixed(1);
+            const memPercent = ((memUsed / memTotal) * 100).toFixed(0);
+
             const cpu = info.cpu.currentLoad.toFixed(1);
+
             const diskUsed = (
               info.disk.reduce((a, b) => a + b.used, 0) / 1073741824
             ).toFixed(1);
             const diskTotal = (
               info.disk.reduce((a, b) => a + b.size, 0) / 1073741824
             ).toFixed(1);
+            const diskPercent = ((diskUsed / diskTotal) * 100).toFixed(0);
             const net = info.network[0];
             const rx = (net.rx_bytes / 1048576).toFixed(1);
             const tx = (net.tx_bytes / 1048576).toFixed(1);
@@ -459,18 +522,42 @@
             const hostPort = `${s.host}${s.port ? ":" + s.port : ""}`;
             const label = s.tag ? `${s.tag}` : hostPort;
             card.innerHTML =
-              `<h3 class="text-cyan-400 mb-1">${label}</h3>` +
-              `<div>CPU: <span class="text-lime-400">${cpu}%</span></div>` +
-              `<div>内存: ${memUsed}/${memTotal} GB</div>` +
-              `<div>磁盘: ${diskUsed}/${diskTotal} GB</div>` +
-              `<div>流量: ${rx}/${tx} MB</div>` +
+              `<div class="flex justify-between items-center">` +
+              `<h3 class="text-cyan-400">${label}</h3>` +
+              `<div class="space-x-2">` +
+              `<button onclick="editServer(event, ${i})" class="text-yellow-400 hover:text-yellow-300">⚙︎</button>` +
+              `<button onclick="removeServer(event, ${i})" class="text-red-400 hover:text-red-300 text-xs">✕</button>` +
+              `</div></div>` +
+              `<div class="mt-1 space-y-1">` +
+              `<div class="flex items-center gap-1"><span>CPU</span>` +
+              `<div class="relative h-3 bg-gray-700 rounded flex-1">` +
+              `<div class="absolute rounded top-0 left-0 h-full bg-gradient-to-r from-green-600 to-opacity-60" style="width:${cpu}%"></div>` +
+              `<span class="absolute inset-0 flex items-center justify-center text-[10px]">${cpu}%</span>` +
+              `</div></div>` +
+              `<div class="flex items-center gap-1"><span>内存</span>` +
+              `<div class="relative h-3 bg-gray-700 rounded flex-1">` +
+              `<div class="absolute rounded top-0 left-0 h-full bg-gradient-to-r from-blue-600 to-opacity-50" style="width:${memPercent}%"></div>` +
+              `<span class="absolute inset-0 flex items-center justify-center text-[10px]">${memUsed}/${memTotal} GB</span>` +
+              `</div></div>` +
+              `<div class="flex items-center gap-1"><span>磁盘</span>` +
+              `<div class="relative h-3 bg-gray-700 rounded flex-1">` +
+              `<div class="absolute rounded top-0 left-0 h-full bg-gradient-to-r from-purple-500 to-opacity-50" style="width:${diskPercent}%"></div>` +
+              `<span class="absolute inset-0 flex items-center justify-center text-[10px]">${diskUsed}/${diskTotal} GB</span>` +
+              `</div></div>` +
+              `</div>` +
+              `<div>流量: ⬇︎ ${rx} | ⬆︎ ${tx} MB</div>` +
               `<div>IP: ${iface.ip4 || "-"} ${info.os.distro}</div>`;
           } catch (e) {
             const hostPort = `${s.host}${s.port ? ":" + s.port : ""}`;
             const label = s.tag ? `${s.tag}` : hostPort;
             card.innerHTML =
-              `<h3 class="text-cyan-400 mb-1">${label}</h3>` +
-              `<div class="text-red-400">${e.message}</div>`;
+              `<div class="flex justify-between items-center">` +
+              `<h3 class="text-cyan-400">${label}</h3>` +
+              `<div class="space-x-2">` +
+              `<button onclick="editServer(event, ${i})" class="text-yellow-400 hover:text-yellow-300">⚙︎</button>` +
+              `<button onclick="removeServer(event, ${i})" class="text-red-400 hover:text-red-300 text-xs">✕</button>` +
+              `</div></div>` +
+              `<div class="text-red-400 mt-1">${e.message}</div>`;
           }
         }
       }
@@ -805,13 +892,62 @@
         const serverCards = document.getElementById("server-cards");
         serverCards.style.display = document.getElementById("toggleServers")
           .checked
-          ? "grid"
+          ? "flex"
           : "none";
       }
 
       document
         .getElementById("toggleServers")
         .addEventListener("change", applyToggleState);
+
+      // 支持鼠标/触控拖动浏览服务器卡片
+      (function () {
+        const scroller = document.getElementById("server-cards");
+        let isDown = false;
+        let startX = 0;
+        let scrollLeft = 0;
+        let didDrag = false;
+        scroller.addEventListener("mousedown", (e) => {
+          isDown = true;
+          didDrag = false;
+          startX = e.pageX;
+          scrollLeft = scroller.scrollLeft;
+        });
+        scroller.addEventListener("mousemove", (e) => {
+          if (!isDown) return;
+          const walk = e.pageX - startX;
+          if (Math.abs(walk) > 2) didDrag = true;
+          scroller.scrollLeft = scrollLeft - walk;
+        });
+        ["mouseleave", "mouseup"].forEach((ev) =>
+          scroller.addEventListener(ev, () => {
+            isDown = false;
+          })
+        );
+        scroller.addEventListener("click", (e) => {
+          if (didDrag) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        });
+        scroller.addEventListener("touchstart", (e) => {
+          isDown = true;
+          didDrag = false;
+          startX = e.touches[0].clientX;
+          scrollLeft = scroller.scrollLeft;
+        });
+        scroller.addEventListener("touchmove", (e) => {
+          if (!isDown) return;
+          const walk = e.touches[0].clientX - startX;
+          if (Math.abs(walk) > 2) didDrag = true;
+          scroller.scrollLeft = scrollLeft - walk;
+        });
+        ["touchend", "touchcancel"].forEach((ev) =>
+          scroller.addEventListener(ev, () => {
+            isDown = false;
+          })
+        );
+      })();
 
       document.getElementById("toggleSSH").addEventListener("change", (e) => {
         useSSH = e.target.checked;
